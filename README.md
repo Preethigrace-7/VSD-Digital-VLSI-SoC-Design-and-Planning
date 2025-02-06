@@ -1,4 +1,6 @@
-![VSD Logo](path_to_image/vsd_logo.png)
+<p align="center">
+  <img src="https://www.vlsisystemdesign.com/wp-content/uploads/2016/12/vsd_logo.jpg" alt="VSD Logo" width="250">
+</p>
 # **Digital VLSI SoC Design and Planning - 15 Days Learning Journey**
 
 This repository documents my learnings from the **Digital VLSI SoC Design and Planning** course by **VLSI System Design (VSD)**. Over 15 days, I will explore key concepts, methodologies, and tools used in SoC design, documenting my progress and insights here.
