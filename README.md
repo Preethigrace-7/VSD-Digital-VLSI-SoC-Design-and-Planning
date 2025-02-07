@@ -11,7 +11,37 @@ This repository documents my learnings from the **Digital VLSI SoC Design and Pl
 - **Duration:** 2 Weeks (15 Days)  
 - **Platform:** VLSI System Design (VSD)
 
-# Sky130 Day 1 - Inception of open-source EDA, OpenLANE and Sky130 PDK
-## *SKY130_D1_SK1 - How to talk to computers*
-### SKY_L1 - Introduction to QFN-48 Package, chip, pads, core, die and IPs
+## **Day 1 - Inception of Open-Source EDA, OpenLANE, and Sky130 PDK**
+### **SKY130_D1_SK1 - How to Talk to Computers**
+#### **SKY_L1 - Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs**
+
+In this module, we explored how to design a System-on-Chip (SoC) on a **VSDSquadran Board** and got familiar with the **QFN-48 package**.
+
+### **1. QFN-48 Package**
+- **QFN (Quad Flat No-Leads)** is a chip package with **48 pins**.
+- This package allows **efficient signal transmission** with minimal resistance.
+- **Image 1:** QFN-48 Package (to be uploaded)
+
+### **2. Internal Structure of the Processor**
+- The processor includes key components such as **VDD/GND, JTAG, Flash, ADC, SRAM (external SoC), etc.**
+- **Image 1.1:** Processor Block Diagram (to be uploaded)
+
+### **3. Chip and Wire Bonding**
+- The **chip is placed inside the package** and connected to the **package pins** using **wire bonds**.
+- **Image 2:** Chip Interconnection with Wire Bonds (to be uploaded)
+
+### **4. Chip Structure**
+- The **chip** consists of three major components:
+  - **Pads:** Located at the chip's boundary, these enable communication of signals between the **chip** and the **outside world**.
+  - **Core:** Contains the fundamental digital logic elements such as **gates, multiplexers, encoders, decoders, etc.**
+  - **Die:** The silicon part of the chip where transistors and circuits are fabricated.
+- **Image 3:** Chip Structure Showing Pads, Core, and Die (to be uploaded)
+
+### **5. Foundry IPs and Macros**
+- **Foundry IPs (Intellectual Property):** These are **pre-designed components** provided by the foundry.
+  - Examples: **PLL, ADC, DAC, SRAM**
+- **Macros:** These are **pre-verified functional blocks** used within the SoC.
+  - Examples: **SPI, RISC-V/SoC**
+- **Image 4:** Foundry IPs and Macros in the Chip (to be uploaded)
+
 
