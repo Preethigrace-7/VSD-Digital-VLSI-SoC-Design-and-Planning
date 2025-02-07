@@ -43,5 +43,28 @@ In this module, we explored how to design a System-on-Chip (SoC) on a **VSDSquad
   - Examples: **SPI, RISC-V/SoC**
 ![image](https://github.com/user-attachments/assets/15ac34e5-9f61-4c63-9bd9-d393efb30b65)
 
+#### **SKY_L2 - Introduction to RISC-V**
+
+##### What is RISC-V?
+RISC-V is an **open-source Instruction Set Architecture (ISA)** that follows the **Reduced Instruction Set Computing (RISC)** principles. It provides a simple and flexible instruction set, making it widely used for hardware design and implementation.
+
+##### How RISC-V Code is Converted for Hardware
+In software compilation, a **C program** is converted into **assembly language** and then into **machine code** for execution. Similarly, in hardware design:
+
+1. **RISC-V C code** is written for the desired functionality.
+2. It is compiled and translated into **HDL (Hardware Description Language)**.
+3. The HDL design undergoes **synthesis, placement, and routing (PnR)** to generate the final layout.
+4. This layout is used for **fabricating the physical chip**.
+
+This process enables the direct implementation of RISC-V-based designs into **hardware chips**, optimizing performance and power efficiency.
+
+##### RISC-V Flow Overview
+Below is a representation of how RISC-V code transforms into a physical layout:
+
+![image](https://github.com/user-attachments/assets/b6f6d3f7-642c-42ea-951c-6f81e0a81a27)
+
+
+
+
 
 
