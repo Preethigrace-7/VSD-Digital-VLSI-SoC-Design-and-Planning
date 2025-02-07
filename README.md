@@ -53,12 +53,14 @@ In software compilation, a **C program** is converted into **assembly language**
 
 1. **RISC-V C code** is written for the desired functionality.
 2. It is compiled and translated into **HDL (Hardware Description Language)**.
-3. The HDL design undergoes **synthesis, placement, and routing (PnR)** to generate the final layout.
-4. This layout is used for **fabricating the physical chip**.
+3. HDL is the interface for RISC-V to Layout process.
+4. The HDL design undergoes **synthesis, placement, and routing (PnR)** to generate the final layout.
+5. This layout is used for **fabricating the physical chip**.
 
 This process enables the direct implementation of RISC-V-based designs into **hardware chips**, optimizing performance and power efficiency.
 
 ##### RISC-V Flow Overview
+RTL implements the RISC-V specification and then RTL to layout(standard RTL to GDS flow)
 Below is a representation of how RISC-V code transforms into a physical layout:
 
 ![image](https://github.com/user-attachments/assets/b6f6d3f7-642c-42ea-951c-6f81e0a81a27)
