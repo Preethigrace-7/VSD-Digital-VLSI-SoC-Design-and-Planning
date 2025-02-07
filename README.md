@@ -127,6 +127,59 @@ Below is the **flow from RTL to the final physical design**:
 ![image](https://github.com/user-attachments/assets/19f041dc-229b-417b-99e3-8c2c0346d333)
 
 ---
+## **SKY130_D1_SK2 - SoC Design and OpenLANE**
+
+### **SKY_L1 - Introduction to All Components of Open-Source Digital ASIC Design**
+
+### *What is Digital ASIC Design?*
+An **Application-Specific Integrated Circuit (ASIC)** is a chip designed for a specific function. The key components required for digital ASIC design are:
+
+- **RTL IPs** – Pre-designed intellectual property blocks (e.g., processors, memory).
+- **EDA Tools** – Software or CAD tools for design, verification, and implementation.
+- **PDK Data** – Process Design Kit, containing foundry-specific design rules and libraries.
+![image](https://github.com/user-attachments/assets/f30c42bd-2909-42b9-9165-be8fdc8be4dd)
+
+---
+
+### *Key Elements of Open-Source Digital ASIC Design*
+![image](https://github.com/user-attachments/assets/bebef6e7-ecbf-4b1d-9ac9-f5907c665b52)
+#### **1. RTL IPs (Register Transfer Level Intellectual Property)**
+RTL defines the hardware behavior using **HDL (Hardware Description Language)**. Open-source RTL resources include:
+- [LibreCores](https://www.librecores.org/)
+- [OpenCores](https://www.opencores.org/)
+- [GitHub](https://www.github.com/)
+
+#### **2. EDA Tools (Electronic Design Automation)**
+EDA tools are used for designing, simulating, and verifying ASICs. Some key open-source tools:
+- **Qflow** – Complete RTL to GDSII flow.
+- **OpenROAD** – Automated RTL to GDS flow.
+- **OpenLane** – Open-source ASIC design flow.
+- **SPICE Simulator** – Circuit simulation tool.
+- **Magic** – Layout editor.
+
+#### **3. PDK (Process Design Kit)**
+##### **What is a PDK?**
+A **Process Design Kit (PDK)** serves as the **interface between the foundry and designers**, providing essential data for ASIC fabrication.
+
+A PDK includes:
+- **Process Design Rules** – **DRC (Design Rule Check), LVS (Layout vs. Schematic), PEX (Parasitic Extraction)**
+- **Device Models** – Defines transistor behavior.
+- **Digital Standard Cell Libraries** – Includes **NAND, NOR, Flip-flops, etc.**
+- **I/O Libraries** – Interfaces for external connections.
+
+##### *SkyWater 130nm Open-Source PDK*
+On **June 30, 2020**, **Google** released the **SkyWater 130nm Open-Source PDK**, making it the **first FOSS (Free and Open-Source Software) 130nm production PDK**.
+
+---
+
+### **ASIC Flow Objective: RTL to GDSII**
+The main goal of the ASIC design process is to convert **RTL (Register Transfer Level) code** into **GDSII format**, which is used for fabrication.
+
+This process is also known as:
+- **Automated Place-and-Route (PnR)**
+- **Physical Implementation**
+
+
 
 
 
