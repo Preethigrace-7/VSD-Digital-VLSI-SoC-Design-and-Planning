@@ -16,32 +16,32 @@ This repository documents my learnings from the **Digital VLSI SoC Design and Pl
 #### **SKY_L1 - Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs**
 
 In this module, we explored how to design a System-on-Chip (SoC) on a **VSDSquadran Board** and got familiar with the **QFN-48 package**.
+### **1.Internal Structure of the Processor**
+- The processor includes key components such as **VDD/GND, JTAG, Flash, ADC, SRAM (external SoC), etc.**
+![image](https://github.com/user-attachments/assets/288cf337-f5d1-48f1-ac6f-ca1e87c9ff98)
 
-### **1. QFN-48 Package**
+### **2.QFN-48 Package**
 - **QFN (Quad Flat No-Leads)** is a chip package with **48 pins**.
 - This package allows **efficient signal transmission** with minimal resistance.
-- **Image 1:** QFN-48 Package (to be uploaded)
-
-### **2. Internal Structure of the Processor**
-- The processor includes key components such as **VDD/GND, JTAG, Flash, ADC, SRAM (external SoC), etc.**
-- **Image 1.1:** Processor Block Diagram (to be uploaded)
+![image](https://github.com/user-attachments/assets/5e52acee-f050-4a9f-a445-cc85cc5c0cc2)
 
 ### **3. Chip and Wire Bonding**
 - The **chip is placed inside the package** and connected to the **package pins** using **wire bonds**.
-- **Image 2:** Chip Interconnection with Wire Bonds (to be uploaded)
+![image](https://github.com/user-attachments/assets/a66058f5-82bb-47ac-b522-56131cbaac0c)
 
 ### **4. Chip Structure**
 - The **chip** consists of three major components:
   - **Pads:** Located at the chip's boundary, these enable communication of signals between the **chip** and the **outside world**.
   - **Core:** Contains the fundamental digital logic elements such as **gates, multiplexers, encoders, decoders, etc.**
   - **Die:** The silicon part of the chip where transistors and circuits are fabricated.
-- **Image 3:** Chip Structure Showing Pads, Core, and Die (to be uploaded)
+![image](https://github.com/user-attachments/assets/e111b90e-424c-4052-9ec8-b1a814d03bda)
 
 ### **5. Foundry IPs and Macros**
 - **Foundry IPs (Intellectual Property):** These are **pre-designed components** provided by the foundry.
   - Examples: **PLL, ADC, DAC, SRAM**
 - **Macros:** These are **pre-verified functional blocks** used within the SoC.
   - Examples: **SPI, RISC-V/SoC**
-- **Image 4:** Foundry IPs and Macros in the Chip (to be uploaded)
+![image](https://github.com/user-attachments/assets/15ac34e5-9f61-4c63-9bd9-d393efb30b65)
+
 
 
