@@ -62,9 +62,8 @@ This process enables the direct implementation of RISC-V-based designs into **ha
 
 ### *RISC-V Flow Overview*
 RTL implements the RISC-V specification and then RTL to layout(standard RTL to GDS flow)
-Below is a representation of how RISC-V code transforms into a physical layout:
 
-![image](https://github.com/user-attachments/assets/b6f6d3f7-642c-42ea-951c-6f81e0a81a27)
+
 ---
 ### **SKY_L3 - From Software Applications to Hardware**
 
@@ -167,7 +166,6 @@ A PDK includes:
 
 ##### *SkyWater 130nm Open-Source PDK*
 On **June 30, 2020**, **Google** released the **SkyWater 130nm Open-Source PDK**, making it the **first FOSS (Free and Open-Source Software) 130nm production PDK**.
-
 ---
 
 ### **ASIC Flow Objective: RTL to GDSII**
@@ -180,8 +178,8 @@ This process is also known as:
 ### **SKY_L2 - Simplified RTL2GDS Flow**
 
 ### *Overview*
-The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
-![image](https://github.com/user-attachments/assets/cedc800c-8084-4e21-a4bd-1bc4b1ab521c)
+The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) that is ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
+![image](https://github.com/user-attachments/assets/7bd47bcf-2c5f-4c2e-a18d-48751d2af305)
 
 ---
 
@@ -189,7 +187,7 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is 
 1. *Synthesis*
    - Converts **RTL (Verilog/VHDL)** into a **gate-level netlist** using **Standard Cell Libraries (SCL)**.
    - The resultant circuit is described in **HDL**, representing logic gates and interconnections.
-![image](https://github.com/user-attachments/assets/9f2e02ed-9176-46a1-a871-a3178043ab2d)
+      ![image](https://github.com/user-attachments/assets/9f2e02ed-9176-46a1-a871-a3178043ab2d)
 
    #### *What are Standard Cells?*
    - **Regular Layout:** Standard cells have a uniform height and fit in predefined rows.
@@ -198,17 +196,20 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is 
      - **HDL (Verilog, VHDL)**
      - **SPICE Models** (Circuit behavior)
      - **Layout Views** (Abstract and Detailed)
-    ![image](https://github.com/user-attachments/assets/e7d49749-0f03-4c9f-bd38-1511fa1969cd)
+
+![image](https://github.com/user-attachments/assets/e7d49749-0f03-4c9f-bd38-1511fa1969cd)
 
 
 2. *Floorplanning + Power Planning*
- ![image](https://github.com/user-attachments/assets/0453ca33-eefe-428e-9721-a43e8bd027c9)
+
+![image](https://github.com/user-attachments/assets/0453ca33-eefe-428e-9721-a43e8bd027c9)
 
    - Defines **chip dimensions**, **macro placement**, and **pin locations**.
-   - ![image](https://github.com/user-attachments/assets/79ade60e-4532-401c-befa-0e1524daf565)
+    ![image](https://github.com/user-attachments/assets/79ade60e-4532-401c-befa-0e1524daf565)
 
    - **Micro-floorplanning** includes:
-   - ![image](https://github.com/user-attachments/assets/fffcc6a0-191c-46e9-8eea-d8dd7ce843e0)
+
+      ![image](https://github.com/user-attachments/assets/fffcc6a0-191c-46e9-8eea-d8dd7ce843e0)
 
      - Defining **rows** for standard cells.
      - **Pin and macro placement**.
@@ -221,28 +222,31 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is 
 
    ![image](https://github.com/user-attachments/assets/e7071e53-b242-4ecf-8191-76e0688af673)
 
-3. *Placement*
+4. *Placement*
    - **Standard cells and macros** are placed to enable successful routing.
    - Two-step process:
      - **Global Placement** – Roughly positions the cells.
      - **Detailed Placement** – Precisely adjusts cells(manually).
-![image](https://github.com/user-attachments/assets/85ae1b01-9199-433d-b97b-076600c257c2)
+     
+  ![image](https://github.com/user-attachments/assets/85ae1b01-9199-433d-b97b-076600c257c2)
 
-4. *Clock Tree Synthesis (CTS)*
+5. *Clock Tree Synthesis (CTS)*
    - Distributes the clock signal efficiently.
    - Minimizes **clock skew** and **latency**.
-   - Uses **tree structures** like **H-tree, X-tree, etc.**.
+   - Uses **tree structures** like **H-tree, X-tree**, etc.
+   
 ![image](https://github.com/user-attachments/assets/bea19d4b-4a1b-4216-a2be-ed6134774fd8)
 
-5. *Routing*
+6. *Routing*
    - **Interconnects the standard cells** using metal layers.
    - **PDK defines metal layers** (Sky130 has **6 aluminum layers** and **9 total metal layers**).
    - Routing is done in **two steps**:
      - **Global Routing** – Estimates routing paths.
      - **Detailed Routing** – Final metal track connections.
+     
 ![image](https://github.com/user-attachments/assets/406a93d2-8a7d-4e91-9bf4-0890510de1a6)
 
-6. *Signoff (Final Verification)*
+7. *Signoff (Final Verification)*
    - **Physical Verification**
      - **DRC (Design Rule Check):** Ensures layout follows foundry rules.
      - **LVS (Layout vs. Schematic):** Checks if the final layout matches the netlist.
