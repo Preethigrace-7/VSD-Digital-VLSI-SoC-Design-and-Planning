@@ -248,5 +248,33 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is 
      - **LVS (Layout vs. Schematic):** Checks if the final layout matches the netlist.
    - **Timing Verification**
      - **STA (Static Timing Analysis):** Ensures timing constraints are met.
+---
+### **SKY_L3 - Introduction to OpenLANE and Strive Chipsets**
+
+### *What is OpenLANE?*
+- **Developed by Efabless**, OpenLANE is an **open-source RTL-to-GDSII flow** for ASIC design.  
+- It integrates **open-source RTL, PDKs, and EDA tools** to automate the design flow.  
+- **Goal:** To generate a **clean GDSII** with **no human intervention** (fully automated).  
+- **"Clean" GDSII** means:
+  - **No LVS (Layout vs. Schematic) errors**
+  - **No DRC (Design Rule Check) violations**
+  - **No timing violations**
+- OpenLANE can be used to **harden macros** and **design complete chips**.  
 
 ---
+
+### *Modes of Operation*
+OpenLANE offers **two modes of operation**:
+1. **Autonomous Mode**  
+   - Runs the full **RTL-to-GDSII** flow automatically.  
+   - No manual intervention is required.  
+2. **Interactive Mode**  
+   - Allows users to run specific steps of the flow manually.  
+   - Useful for debugging and optimizing specific stages.  
+
+### *Design Space Exploration (DSE)*
+- OpenLANE helps **optimize design parameters** by exploring different flow configurations.  
+- It searches for the **best setup** based on power, performance, and area (PPA).  
+
+---
+
