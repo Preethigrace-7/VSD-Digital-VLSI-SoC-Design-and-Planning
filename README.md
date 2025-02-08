@@ -137,9 +137,7 @@ An **Application-Specific Integrated Circuit (ASIC)** is a chip designed for a s
 - **RTL IPs** – Pre-designed intellectual property blocks (e.g., processors, memory).
 - **EDA Tools** – Software or CAD tools for design, verification, and implementation.
 - **PDK Data** – Process Design Kit, containing foundry-specific design rules and libraries.
-![image](https://github.com/user-attachments/assets/f30c42bd-2909-42b9-9165-be8fdc8be4dd)
-
----
+![image](https://github.com/user-attachments/assets/56aac8d6-d2a3-4cd0-9f8f-1757b17a0bd3)
 
 ### *Key Elements of Open-Source Digital ASIC Design*
 ![image](https://github.com/user-attachments/assets/bebef6e7-ecbf-4b1d-9ac9-f5907c665b52)
@@ -178,4 +176,77 @@ The main goal of the ASIC design process is to convert **RTL (Register Transfer 
 This process is also known as:
 - **Automated Place-and-Route (PnR)**
 - **Physical Implementation**
+---
+### **SKY_L2 - Simplified RTL2GDS Flow**
+
+### *Overview*
+The **RTL-to-GDSII flow** converts an RTL design into a layout(tapeout) that is ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
+![image](https://github.com/user-attachments/assets/cedc800c-8084-4e21-a4bd-1bc4b1ab521c)
+
+---
+
+### *Step-by-Step RTL to GDSII Flow*
+1. *Synthesis*
+   - Converts **RTL (Verilog/VHDL)** into a **gate-level netlist** using **Standard Cell Libraries (SCL)**.
+   - The resultant circuit is described in **HDL**, representing logic gates and interconnections.
+![image](https://github.com/user-attachments/assets/9f2e02ed-9176-46a1-a871-a3178043ab2d)
+
+   #### *What are Standard Cells?*
+   - **Regular Layout:** Standard cells have a uniform height and fit in predefined rows.
+   - **Multiple Views:**  
+     - **Electrical Models** (Delay, Power, etc.)
+     - **HDL (Verilog, VHDL)**
+     - **SPICE Models** (Circuit behavior)
+     - **Layout Views** (Abstract and Detailed)
+    ![image](https://github.com/user-attachments/assets/e7d49749-0f03-4c9f-bd38-1511fa1969cd)
+
+
+2. *Floorplanning + Power Planning*
+ ![image](https://github.com/user-attachments/assets/0453ca33-eefe-428e-9721-a43e8bd027c9)
+
+   - Defines **chip dimensions**, **macro placement**, and **pin locations**.
+   - ![image](https://github.com/user-attachments/assets/79ade60e-4532-401c-befa-0e1524daf565)
+
+   - **Micro-floorplanning** includes:
+   - ![image](https://github.com/user-attachments/assets/fffcc6a0-191c-46e9-8eea-d8dd7ce843e0)
+
+     - Defining **rows** for standard cells.
+     - **Pin and macro placement**.
+   #### **Power Planning**
+   - **Constructs the power network** using:
+     - **Power Pads**
+     - **Power Straps**
+     - **Power Rings**
+   - Helps address **Electromigration issues** and **reduce resistance** by using **higher metal layers**.
+
+   ![image](https://github.com/user-attachments/assets/e7071e53-b242-4ecf-8191-76e0688af673)
+
+3. *Placement*
+   - **Standard cells and macros** are placed to enable successful routing.
+   - Two-step process:
+     - **Global Placement** – Roughly positions the cells.
+     - **Detailed Placement** – Precisely adjusts cells(manually).
+![image](https://github.com/user-attachments/assets/85ae1b01-9199-433d-b97b-076600c257c2)
+
+4. *Clock Tree Synthesis (CTS)*
+   - Distributes the clock signal efficiently.
+   - Minimizes **clock skew** and **latency**.
+   - Uses **tree structures** like **H-tree, X-tree, etc.**.
+![image](https://github.com/user-attachments/assets/bea19d4b-4a1b-4216-a2be-ed6134774fd8)
+
+5. *Routing*
+   - **Interconnects the standard cells** using metal layers.
+   - **PDK defines metal layers** (Sky130 has **6 aluminum layers** and **9 total metal layers**).
+   - Routing is done in **two steps**:
+     - **Global Routing** – Estimates routing paths.
+     - **Detailed Routing** – Final metal track connections.
+![image](https://github.com/user-attachments/assets/406a93d2-8a7d-4e91-9bf4-0890510de1a6)
+
+6. *Signoff (Final Verification)*
+   - **Physical Verification**
+     - **DRC (Design Rule Check):** Ensures layout follows foundry rules.
+     - **LVS (Layout vs. Schematic):** Checks if the final layout matches the netlist.
+   - **Timing Verification**
+     - **STA (Static Timing Analysis):** Ensures timing constraints are met.
+
 ---
