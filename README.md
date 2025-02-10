@@ -178,7 +178,7 @@ This process is also known as:
 ### **SKY_L2 - Simplified RTL2GDS Flow**
 
 ### *Overview*
-The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) that is ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
+The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
 ![image](https://github.com/user-attachments/assets/7bd47bcf-2c5f-4c2e-a18d-48751d2af305)
 
 ---
@@ -281,4 +281,111 @@ OpenLANE offers **two modes of operation**:
 - It searches for the **best setup** based on power, performance, and area (PPA).  
 
 ---
+### **SKY_L4 - Introduction to OpenLANE Detailed ASIC Design Flow**
+![image](https://github.com/user-attachments/assets/557e5247-d29c-4c25-994d-b020a5932c73)
 
+### *Overview of OpenLANE ASIC Flow*
+- The **OpenLANE flow** starts from **RTL to GDSII**.
+- Built on multiple open-source projects:
+  - **Yosys** (Synthesis)
+  - **Fault** (DFT - Design for Test)
+  - **KLayout** (Layout visualization)
+  - **OpenROAD** (Physical design)
+- **Objective:** Fully automated RTL-to-GDSII process for ASIC design.
+![image](https://github.com/user-attachments/assets/3cd002bb-6ac9-4a7e-9cfc-426a53968581)
+
+---
+
+### *Step 1: RTL Synthesis*
+- Converts RTL to **optimized logic circuits**.
+- Uses **Yosys** to translate RTL into logic and optimize it.
+- **ABC Mapping**: Optimizes delay and area.
+- **Synthesis Exploration Utility**:
+  - Shows delay and area impact of different synthesis strategies.
+  - Helps select the **best synthesis strategy**.
+  - **Generates reports** on violations for better design tuning.  
+ ![image](https://github.com/user-attachments/assets/2bcc03e0-d80e-4ee5-8890-cd91d94af2aa)
+
+---
+
+### *Step 2: Design Exploration Utility for Regression Testing (CI)*
+- OpenLANE provides a **Design Exploration Utility** for:
+  - **Evaluating different configurations** to find the best design settings.
+    ![image](https://github.com/user-attachments/assets/5d729458-3e1e-4afc-8c0a-f71181ab9aef)
+  - **Performing regression testing (Continuous Integration - CI)**.
+- **Regression Testing (CI) ensures:**
+  - **No new violations** are introduced during iterative improvements.
+  - The design remains **clean** throughout development.
+     ![image](https://github.com/user-attachments/assets/85091c1e-017b-4ff2-9ce9-1ecc5e7c5909)
+
+- **Automatically generates reports** on:
+  - **Number of DRC, LVS, and timing violations**.
+  - **Effect of design parameter changes on performance**.  
+
+
+---
+
+### *Step 3: Design for Test (DFT)*
+- Uses **Fault**, an open-source DFT tool.
+- **Scan Insertion**: Adds scan chains for testability.
+- **Automatic Test Pattern Generation (ATPG)**: Generates test patterns.
+- **Fault Coverage & Simulation**:
+  - Ensures defects can be detected in silicon.
+  - Reduces the number of test vectors needed.
+  ![image](https://github.com/user-attachments/assets/333b5495-667a-4137-a788-69de0f090947)
+
+
+---
+
+### *Step 4: Physical Implementation*
+Uses **OpenROAD** for automated **PnR (Place & Route)**.
+- **Floorplanning & Power Planning**:
+  - Defines **silicon area, power straps, and decoupling capacitors**.
+- **Placement**:
+  - **Global and detailed placement** of standard cells and macros.
+- **Clock Tree Synthesis (CTS)**:
+  - **Optimizes clock distribution** (H-tree, X-tree structures).
+- **Routing**:
+  - **Global and detailed routing** using PDK-defined metal layers.
+- **Post-Placement Optimizations**:
+  - **Logic Equivalence Check (LEC)** ensures netlist modifications don't change logic.  
+  ![PnR Flow](https://github.com/user-attachments/assets/pnr_flow.png)
+
+---
+
+### *Step 5: Antenna Rule Violation Fixing*
+### **Antenna Effect**
+![image](https://github.com/user-attachments/assets/e68fc83f-120a-4109-9370-66fa42c19849)
+
+- During fabrication, **charge accumulation on metal wires** can damage transistors.
+- **Reactive ion etching (RIE)** can cause charge buildup.
+- **Fixes for Antenna Violations**:
+  1. **Bridging**: Uses **top metal layers** to discharge.
+ ![image](https://github.com/user-attachments/assets/c90c78ac-7a72-4eb7-9796-403bd4cd73d3)
+
+
+  2. **Antenna Diode Insertion**: Adds **antenna diodes** to dissipate excess charge.
+    ![image](https://github.com/user-attachments/assets/6f487980-64da-4b37-87f1-d2d6a57beac8)
+
+- **Preventive Approach in OpenLANE**:
+  - **Fake antenna diodes** added next to every cell input after placement.
+  - **Antenna Checker (Magic)** detects violations.
+  - If violations exist, **fake diodes are replaced with real ones**.
+![image](https://github.com/user-attachments/assets/24a3dc2a-1705-4526-b8de-3185a7c97040)
+
+---
+
+### *Step 6: Sign-Off in OpenLANE**
+- **STA (Static Timing Analysis)**:
+  - Performed using **OpenROAD**.
+  - **Timing violations and setup/hold checks**.
+![image](https://github.com/user-attachments/assets/09f6be11-6392-4ba7-9a71-dfdb440e663f)
+
+- **DRC (Design Rule Check)**:
+  - Uses **Magic** for design rule verification.
+  - Extracts **SPICE netlist from layout** for final validation.
+- **LVS (Layout vs. Schematic)**
+  - **Magic + Netgen** compare extracted SPICE netlist vs. synthesized Verilog netlist.
+  - Ensures **physical layout matches logical design**.
+
+---
