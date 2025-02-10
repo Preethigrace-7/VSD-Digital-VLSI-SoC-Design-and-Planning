@@ -349,7 +349,6 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
   - **Global and detailed routing** using PDK-defined metal layers.
 - **Post-Placement Optimizations**:
   - **Logic Equivalence Check (LEC)** ensures netlist modifications don't change logic.  
-  ![PnR Flow](https://github.com/user-attachments/assets/pnr_flow.png)
 
 ---
 
