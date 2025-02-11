@@ -179,7 +179,7 @@ This process is also known as:
 
 ### *Overview*
 The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready for fabrication. This involves multiple steps, from synthesis to final verification before tape-out.
-![image](https://github.com/user-attachments/assets/7bd47bcf-2c5f-4c2e-a18d-48751d2af305)
+    ![image](https://github.com/user-attachments/assets/7bd47bcf-2c5f-4c2e-a18d-48751d2af305)
 
 ---
 
@@ -197,15 +197,15 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready f
      - **SPICE Models** (Circuit behavior)
      - **Layout Views** (Abstract and Detailed)
 
-![image](https://github.com/user-attachments/assets/e7d49749-0f03-4c9f-bd38-1511fa1969cd)
+      ![image](https://github.com/user-attachments/assets/e7d49749-0f03-4c9f-bd38-1511fa1969cd)
 
 
 2. *Floorplanning + Power Planning*
 
-![image](https://github.com/user-attachments/assets/0453ca33-eefe-428e-9721-a43e8bd027c9)
+      ![image](https://github.com/user-attachments/assets/0453ca33-eefe-428e-9721-a43e8bd027c9)
 
    - Defines **chip dimensions**, **macro placement**, and **pin locations**.
-    ![image](https://github.com/user-attachments/assets/79ade60e-4532-401c-befa-0e1524daf565)
+      ![image](https://github.com/user-attachments/assets/79ade60e-4532-401c-befa-0e1524daf565)
 
    - **Micro-floorplanning** includes:
 
@@ -220,7 +220,7 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready f
      - **Power Rings**
    - Helps address **Electromigration issues** and **reduce resistance** by using **higher metal layers**.
 
-   ![image](https://github.com/user-attachments/assets/e7071e53-b242-4ecf-8191-76e0688af673)
+       ![image](https://github.com/user-attachments/assets/e7071e53-b242-4ecf-8191-76e0688af673)
 
 4. *Placement*
    - **Standard cells and macros** are placed to enable successful routing.
@@ -228,14 +228,14 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready f
      - **Global Placement** – Roughly positions the cells.
      - **Detailed Placement** – Precisely adjusts cells(manually).
      
-  ![image](https://github.com/user-attachments/assets/85ae1b01-9199-433d-b97b-076600c257c2)
+      ![image](https://github.com/user-attachments/assets/85ae1b01-9199-433d-b97b-076600c257c2)
 
 5. *Clock Tree Synthesis (CTS)*
    - Distributes the clock signal efficiently.
    - Minimizes **clock skew** and **latency**.
    - Uses **tree structures** like **H-tree, X-tree**, etc.
    
-![image](https://github.com/user-attachments/assets/bea19d4b-4a1b-4216-a2be-ed6134774fd8)
+    ![image](https://github.com/user-attachments/assets/bea19d4b-4a1b-4216-a2be-ed6134774fd8)
 
 6. *Routing*
    - **Interconnects the standard cells** using metal layers.
@@ -244,7 +244,7 @@ The **RTL-to-GDSII flow** converts an RTL design into a layout(tape-out) ready f
      - **Global Routing** – Estimates routing paths.
      - **Detailed Routing** – Final metal track connections.
      
-![image](https://github.com/user-attachments/assets/406a93d2-8a7d-4e91-9bf4-0890510de1a6)
+    ![image](https://github.com/user-attachments/assets/406a93d2-8a7d-4e91-9bf4-0890510de1a6)
 
 7. *Signoff (Final Verification)*
    - **Physical Verification**
@@ -282,7 +282,7 @@ OpenLANE offers **two modes of operation**:
 
 ---
 ### **SKY_L4 - Introduction to OpenLANE Detailed ASIC Design Flow**
-![image](https://github.com/user-attachments/assets/557e5247-d29c-4c25-994d-b020a5932c73)
+  ![image](https://github.com/user-attachments/assets/557e5247-d29c-4c25-994d-b020a5932c73)
 
 ### *Overview of OpenLANE ASIC Flow*
 - The **OpenLANE flow** starts from **RTL to GDSII**.
@@ -292,7 +292,7 @@ OpenLANE offers **two modes of operation**:
   - **KLayout** (Layout visualization)
   - **OpenROAD** (Physical design)
 - **Objective:** Fully automated RTL-to-GDSII process for ASIC design.
-![image](https://github.com/user-attachments/assets/3cd002bb-6ac9-4a7e-9cfc-426a53968581)
+  ![image](https://github.com/user-attachments/assets/3cd002bb-6ac9-4a7e-9cfc-426a53968581)
 
 ---
 
@@ -304,7 +304,7 @@ OpenLANE offers **two modes of operation**:
   - Shows delay and area impact of different synthesis strategies.
   - Helps select the **best synthesis strategy**.
   - **Generates reports** on violations for better design tuning.  
- ![image](https://github.com/user-attachments/assets/2bcc03e0-d80e-4ee5-8890-cd91d94af2aa)
+   ![image](https://github.com/user-attachments/assets/2bcc03e0-d80e-4ee5-8890-cd91d94af2aa)
 
 ---
 
@@ -354,23 +354,23 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
 
 ### *Step 5: Antenna Rule Violation Fixing*
 ### **Antenna Effect**
-![image](https://github.com/user-attachments/assets/e68fc83f-120a-4109-9370-66fa42c19849)
+  ![image](https://github.com/user-attachments/assets/e68fc83f-120a-4109-9370-66fa42c19849)
 
 - During fabrication, **charge accumulation on metal wires** can damage transistors.
 - **Reactive ion etching (RIE)** can cause charge buildup.
 - **Fixes for Antenna Violations**:
   1. **Bridging**: Uses **top metal layers** to discharge.
- ![image](https://github.com/user-attachments/assets/c90c78ac-7a72-4eb7-9796-403bd4cd73d3)
 
+      ![image](https://github.com/user-attachments/assets/c90c78ac-7a72-4eb7-9796-403bd4cd73d3)
 
-  2. **Antenna Diode Insertion**: Adds **antenna diodes** to dissipate excess charge.
+  3. **Antenna Diode Insertion**: Adds **antenna diodes** to dissipate excess charge.
     ![image](https://github.com/user-attachments/assets/6f487980-64da-4b37-87f1-d2d6a57beac8)
 
 - **Preventive Approach in OpenLANE**:
   - **Fake antenna diodes** added next to every cell input after placement.
   - **Antenna Checker (Magic)** detects violations.
   - If violations exist, **fake diodes are replaced with real ones**.
-![image](https://github.com/user-attachments/assets/24a3dc2a-1705-4526-b8de-3185a7c97040)
+  ![image](https://github.com/user-attachments/assets/24a3dc2a-1705-4526-b8de-3185a7c97040)
 
 ---
 
@@ -378,7 +378,7 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
 - **STA (Static Timing Analysis)**:
   - Performed using **OpenROAD**.
   - **Timing violations and setup/hold checks**.
-![image](https://github.com/user-attachments/assets/09f6be11-6392-4ba7-9a71-dfdb440e663f)
+  ![image](https://github.com/user-attachments/assets/09f6be11-6392-4ba7-9a71-dfdb440e663f)
 
 - **DRC (Design Rule Check)**:
   - Uses **Magic** for design rule verification.
