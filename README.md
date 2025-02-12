@@ -388,7 +388,7 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
   - Ensures **physical layout matches logical design**.
 
 ---
-## GSKY130_D1_SK3 - Get familiar to open-source EDA tools
+### GSKY130_D1_SK3 - Get familiar to open-source EDA tools
 
 ### *SKY_L1 - OpenLANE Directory structure in detail*
 OpenLANE is a **complete RTL-to-GDSII flow** for ASIC design, integrating multiple open-source EDA tools:
@@ -414,12 +414,12 @@ OpenLANE is a **complete RTL-to-GDSII flow** for ASIC design, integrating multip
 
 ---
 
-### OpenLANE Directory Structure (SKY_L1)
-
 ### *Setting Up OpenLANE*
 ```sh
 cd /work/tools/openlane_working_dir/openlane
 ```
+![image](https://github.com/user-attachments/assets/06629ece-306a-4524-a105-cd5bbf57c11c)
+
 - OpenLANE uses the **SkyWater 130nm PDK (SKY130)** for standard cells and routing rules.  
 - We are working on the **PicoRV32a** core in OpenLANE.  
 
@@ -452,6 +452,7 @@ cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.ref
 cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.tech
 ```
 - **Tool-specific** libraries (for synthesis, placement, routing, and verification).  
+![image](https://github.com/user-attachments/assets/3a9fccd1-3e02-4fb8-a1ac-5b90431b7c81)
 
 ---
 
