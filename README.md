@@ -374,7 +374,7 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
 
 ---
 
-### *Step 6: Sign-Off in OpenLANE**
+### *Step 6: Sign-Off in OpenLANE*
 - **STA (Static Timing Analysis)**:
   - Performed using **OpenROAD**.
   - **Timing violations and setup/hold checks**.
@@ -388,3 +388,98 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
   - Ensures **physical layout matches logical design**.
 
 ---
+## GSKY130_D1_SK3 - Get familiar to open-source EDA tools
+
+### *SKY_L1 - OpenLANE Directory structure in detail*
+OpenLANE is a **complete RTL-to-GDSII flow** for ASIC design, integrating multiple open-source EDA tools:
+
+- **Yosys** - Logic Synthesis  
+- **ABC** - Technology Mapping  
+- **OpenROAD** - Place & Route (PnR)  
+- **Magic** - DRC & LVS Verification  
+- **Netgen** - LVS (Layout vs. Schematic)  
+
+---
+
+### *Basic Linux Commands for OpenLANE*
+
+| **Command** | **Description** |
+|------------|----------------|
+| `cd ../` | Move to the parent directory |
+| `ls -ltr` | List files in long format (sorted by modification time) |
+| `command --help` | Get help for a command |
+| `clear` | Clear the terminal screen |
+| `less filename` | Open a file in read mode (Press `q` to exit) |
+| `vi filename` | Open a file for editing in **vi/vim** |
+
+---
+
+### OpenLANE Directory Structure (SKY_L1)
+
+### *Setting Up OpenLANE*
+```sh
+cd /work/tools/openlane_working_dir/openlane
+```
+- OpenLANE uses the **SkyWater 130nm PDK (SKY130)** for standard cells and routing rules.  
+- We are working on the **PicoRV32a** core in OpenLANE.  
+
+---
+
+### *Understanding Open_PDKs*
+- **Open_PDKs** is an open-source **PDK (Process Design Kit) manager** that sets up **SkyWater 130nm (SKY130)** for various EDA tools.
+
+---
+
+### *Understanding SKY130A*
+- **SKY130A** is the **open-source process node** from **SkyWater**.
+- It includes:
+  - **Standard cells, I/O cells, and analog libraries**
+  - **DRC, LVS, and routing rules**
+
+---
+
+### *Library Directories in OpenLANE*
+
+#### 1. `libs.ref`
+```sh
+cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.ref
+```
+- **Technology-specific** libraries (standard cells, I/O cells, SRAMs).  
+- Contains **characterization data, timing models, and layouts**.
+
+#### 2. `libs.tech`
+```sh
+cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.tech
+```
+- **Tool-specific** libraries (for synthesis, placement, routing, and verification).  
+
+---
+
+### *Understanding SKY130 Naming Convention*
+Example: `sky130_fd_sc_hd`
+
+| **Part**  | **Meaning** |
+|-----------|------------|
+| `sky130`  | SkyWater 130nm node |
+| `fd`      | Foundry |
+| `sc`      | Standard Cells |
+| `hd`      | High-Density variant |
+
+Other variants:  
+- **`sky130_fd_sc_hs`** → High-Speed  
+- **`sky130_fd_sc_lp`** → Low-Power  
+
+---
+
+### *Tech LEF vs. LEF*
+
+#### 1. LEF (Library Exchange Format)
+- Defines **abstract views** of standard cells (for placement & routing).  
+- Contains only **bounding box, pin locations, and blockage info**.  
+
+#### 2. Tech LEF
+- Defines **PDK-specific technology rules** for routing, via definitions, etc.  
+- Includes **metal layers, via resistance, and design rules**.  
+
+---
+
