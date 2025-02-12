@@ -442,14 +442,14 @@ cd /work/tools/openlane_working_dir/openlane
 
 #### 1. `libs.ref`
 ```sh
-cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.ref
+cd /work/tools/openlane_working_dir/pdks/sky130/libs.ref
 ```
 - **Technology-specific** libraries (standard cells, I/O cells, SRAMs).  
 - Contains **characterization data, timing models, and layouts**.
 
 #### 2. `libs.tech`
 ```sh
-cd /work/tools/openlane_working_dir/open_pdks/sky130/libs.tech
+cd /work/tools/openlane_working_dir/pdks/sky130/libs.tech
 ```
 - **Tool-specific** libraries (for synthesis, placement, routing, and verification).  
 ![image](https://github.com/user-attachments/assets/3a9fccd1-3e02-4fb8-a1ac-5b90431b7c81)
