@@ -630,4 +630,30 @@ The first step in physical design is to define the **width** and **height** of t
 ![image](https://github.com/user-attachments/assets/fe8cab00-42bc-4002-8bdf-d137a6bb2cec)
 
 ---
+### SKY_L2 - Concept of Pre-Placed Cells
 
+### *Definition:*
+Pre-placed cells are specific functional blocks in a design whose locations are fixed during the early stages of physical design. These cells are strategically positioned to optimize performance, reduce routing congestion, and ensure modular design implementation.
+
+### *Purpose of Pre-Placed Cells:*
+- Used in large circuits by dividing them into smaller, manageable modules.
+
+  ![image](https://github.com/user-attachments/assets/0aa38eaf-b93c-4716-92c4-47ffd18d37ae)
+
+- Each module is implemented separately and then integrated.
+- Allows extending I/O pins and black-boxing modules (hiding internal details).
+
+  ![image](https://github.com/user-attachments/assets/2d526182-7902-4b19-b464-d861f30f62b2)
+
+- Enables design reuse by implementing functionality only once and integrating multiple times.
+- Once placed, their locations remain unchanged to maintain design integrity.
+
+  ![image](https://github.com/user-attachments/assets/eb6c7ec0-f5f0-4a3d-99af-fe4208d3dee7)
+
+  - some IP's are Memory, mux, clock-gating cells, comparator, etc.
+
+### *Benefits:*
+- Simplifies integration of different IP blocks.
+- Reduces overall design complexity and enhances scalability.
+- Ensures consistent and predictable design performance.
+---
