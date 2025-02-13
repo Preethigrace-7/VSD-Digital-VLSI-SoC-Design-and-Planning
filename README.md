@@ -164,7 +164,7 @@ A PDK includes:
 - **Digital Standard Cell Libraries** – Includes **NAND, NOR, Flip-flops, etc.**
 - **I/O Libraries** – Interfaces for external connections.
 
-##### *SkyWater 130nm Open-Source PDK*
+### *SkyWater 130nm Open-Source PDK*
 On **June 30, 2020**, **Google** released the **SkyWater 130nm Open-Source PDK**, making it the **first FOSS (Free and Open-Source Software) 130nm production PDK**.
 ---
 
@@ -483,4 +483,57 @@ Other variants:
 - Includes **metal layers, via resistance, and design rules**.  
 
 ---
+### SKY_L2 - Design Preparation Step
 
+### *Running OpenLANE in Interactive Mode*
+
+To start OpenLANE in **interactive mode**, use the following command:
+
+```sh
+./flow.tcl -interactive
+```
+
+- The `-interactive` flag allows **manual control** over the flow.
+- Running the command **without** `-interactive` executes the **entire flow automatically**.
+- Once inside OpenLANE, the prompt will change to `%`.
+
+### *Loading Required Packages*
+
+Before proceeding, **load the required OpenLANE package**:
+
+```tcl
+% package require openlane 0.9
+```
+
+### *Navigating to the Design Folder*
+
+We are working on the **picorv32a** design located in OpenLANE’s design directory.
+![image](https://github.com/user-attachments/assets/0ee4895b-6a0b-4eae-8e88-cde22bd51668)
+
+- The **RTL source files** and **SDC (netlist constraints)** are in the `src` folder.
+- The **configuration file** `config.tcl` is also inside the `picorv32a` folder.
+
+### *Editing the Configuration File*
+![image](https://github.com/user-attachments/assets/f73d09a1-38fb-450c-a09a-34ce4e4080c5)
+
+The `config.tcl` file allows **customizing design parameters**.
+For example, to override the default clock period, set:
+
+```tcl
+set ::env(CLOCK_PERIOD) 5
+```
+
+This **overrides the default clock period** for **picorv32a**.
+
+### *Preparing the Design*
+
+To merge `.lef` and `.tlef` files into a single file and prepare the design:
+
+```tcl
+% prep -design picorv32a
+```
+![image](https://github.com/user-attachments/assets/d63ced44-a1dc-4c7b-893f-577bace3848e)
+
+This step **initializes** the design and prepares it for **further processing**.
+
+---
