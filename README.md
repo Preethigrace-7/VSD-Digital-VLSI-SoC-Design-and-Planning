@@ -592,4 +592,42 @@ Once the **Static Timing Analysis (STA)** is done and synthesis has occurred, we
 - we need to check the synthesis reports to validate the number of flip-flops and total cells.
 
 ---
+## SKY130 Day 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells
+
+### SKY130_D2_SK1 - Chip Floor Planning Considerations
+
+### SKY_L1 - Utilization Factor and Aspect Ratio
+
+### *First Step of Physical Design*
+The first step in physical design is to define the **width** and **height** of the **core** and **die**.
+
+![image](https://github.com/user-attachments/assets/d08b344e-94bd-4890-a46c-26775e131f70)
+
+### *Understanding the Netlist*
+- The netlist represents the connectivity of standard cells.
+- The most important components are **standard cells**.
+
+![image](https://github.com/user-attachments/assets/ee9231b6-a01b-4dc1-92de-fa53c970bb4f)
+
+![image](https://github.com/user-attachments/assets/d5363f73-43ab-408e-a908-7b85283c2751)
+
+
+### *Core and Die Section of a Chip*
+- The **core** is the active area where logic is placed.
+- The **die** is the overall chip boundary.
+
+![image](https://github.com/user-attachments/assets/12fc3d57-4b90-4452-97fa-5327a74842dd)
+
+### *Utilization Factor*
+- **Formula**: `Utilization Factor = (Area occupied by netlist) / (Total area of core)`
+- Ideal utilization is **50% - 60%**, not 100%, to allow routing space.
+
+### *Aspect Ratio*
+- **Formula**: `Aspect Ratio = Height / Width`
+- If **Aspect Ratio = 1**, the shape is a **square**.
+- If **Aspect Ratio ≠ 1**, the shape is a **rectangle**.
+
+![image](https://github.com/user-attachments/assets/fe8cab00-42bc-4002-8bdf-d137a6bb2cec)
+
+---
 
