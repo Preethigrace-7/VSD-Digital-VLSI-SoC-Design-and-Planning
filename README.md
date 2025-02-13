@@ -537,3 +537,59 @@ To merge `.lef` and `.tlef` files into a single file and prepare the design:
 This step **initializes** the design and prepares it for **further processing**.
 
 ---
+
+### SKY_L3 - Review Files After Design Prep and Run Synthesis
+
+### *Review Files After Design Prep*
+Once the design preparation is completed, a `runs` directory is created with the current date as its folder name.
+![Image](https://github.com/user-attachments/assets/73f6d181-0923-4778-aacd-536836c0750e)
+Inside the `runs` directory, we have:
+- **Results folder**: Stores outputs for each stage of the design flow.
+- **Reports folder**: Contains logs and reports generated during the process.
+- **config.tcl file**: Found in the latest date folder, showing the parameters and details used for that design run.
+
+### *Checking Configurations*
+To verify if modifications are correctly reflected, we can inspect the `config.tcl` file:
+```sh
+less runs/<latest_date_folder>/config.tcl
+```
+Press `q` to exit the file viewer.
+
+### *Running Synthesis*
+To start the synthesis step, use the following command:
+```sh
+% run_synthesis
+```
+This step is handled by **Yosys** and **ABC**, which optimize and map the RTL into gate-level logic.
+
+After synthesis, the generated reports can be found in the `runs/<latest_date_folder>/reports/synthesis/` directory.
+![image](https://github.com/user-attachments/assets/52703060-7f40-4929-8aac-f196f0f30361)
+
+---
+### SKY_L5 - Steps to Characterize Synthesis Results
+
+Once the **Static Timing Analysis (STA)** is done and synthesis has occurred, we need to characterize the synthesis results by calculating the **flop ratio**.
+
+### *Flop Ratio Calculation:*
+- **Formula:**
+  ```
+  Flop Ratio = (Number of Flip-Flops) / (Total Number of Cells)
+  ```
+  ![image](https://github.com/user-attachments/assets/750cb125-b595-440f-bc7b-2acbc8e3d4af)
+
+- For our case:
+  ```
+  Flop Ratio = 1613 / 14876 = 0.108429685
+  ```
+- Convert to percentage:
+  ```
+  0.108429685 × 100 = 10.84%
+  ```
+
+### *Where to Find These Details:*
+- Synthesis details are stored in the **runs/** folder.
+- Navigate to the **latest date folder** inside the runs directory.
+- we need to check the synthesis reports to validate the number of flip-flops and total cells.
+
+---
+
