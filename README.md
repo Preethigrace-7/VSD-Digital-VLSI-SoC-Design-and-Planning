@@ -657,3 +657,33 @@ Pre-placed cells are specific functional blocks in a design whose locations are 
 - Reduces overall design complexity and enhances scalability.
 - Ensures consistent and predictable design performance.
 ---
+### SKY_L3 - De-coupling Capacitors
+
+### *Continuing with Pre-Placed Cells*
+
+If we have blocks A, B, and C as pre-placed cells, they are usually positioned close to the input side for efficiency. These pre-placed cells need to be surrounded by decoupling capacitors to ensure stable power delivery.
+
+![image](https://github.com/user-attachments/assets/8a49a382-66a3-47aa-a036-548eea074592)
+
+### Why Do We Need Decoupling Capacitors?
+- When power is supplied to a complex circuit, voltage drops occur due to the physical resistance of wires.
+- The voltage received at the circuit might not equal the actual voltage source, potentially causing the circuit to fail to switch.
+- According to noise margin considerations, if the voltage falls within the noise margin area, the circuit remains operational. However, if it enters the undefined or grey area, the circuit may not switch properly.
+
+![image](https://github.com/user-attachments/assets/1bc1d219-847f-43f8-bbdd-b51eeb8719db)
+
+### Role of Decoupling Capacitors
+- A decoupling capacitor **charges** when the circuit is not switching.
+- When the circuit requires a charge, the capacitor **discharges** to provide immediate power.
+- This ensures voltage stability, preventing fluctuations that might lead to functional failures.
+
+![image](https://github.com/user-attachments/assets/3f3e37fe-1aae-4b7b-b3ca-ce4d5ff01b0d)
+
+### Ensuring Proper Local Communication
+- Once decoupling capacitors are placed around pre-placed cells, we can efficiently manage local power distribution and communication within the circuit.
+
+![image](https://github.com/user-attachments/assets/2dc1c1dd-e627-4bf7-b2ab-624b87a3d7f0)
+
+---
+
+
