@@ -686,4 +686,42 @@ If we have blocks A, B, and C as pre-placed cells, they are usually positioned c
 
 ---
 
+### SKY_L4 - Power Planning
+
+In complex circuits, multiple interconnected blocks exist within a chip. The signal transition from one circuit to another must be sustained until it reaches the connected circuit. To ensure this, **VDD** and **GND** are strategically placed between them.
+
+![image](https://github.com/user-attachments/assets/d917d423-9a88-4e5a-b864-4a609eed8579)
+
+### *Power Challenges in a Circuit*
+
+1. **Signal Integrity**  
+   - Consider a **16-bit bus** where logic transitions occur (charging for `1` and discharging for `0`) in between the circuits.
+
+     ![image](https://github.com/user-attachments/assets/a6a338e7-2fc3-4c36-a157-bfe44e72eb37)
+
+   - If capacitors discharge simultaneously to `0`, it causes **ground bounce**.
+
+     ![image](https://github.com/user-attachments/assets/4ae2c5b0-7e91-47bc-a054-a5bf5236ebfd)
+
+   - If capacitors request voltage simultaneously, it results in **voltage droop**.
+
+     ![image](https://github.com/user-attachments/assets/c57b5759-e23a-4a9c-8374-4da7c0ea88c9)
+
+
+2. **Ground Bounce**  
+   - This occurs when multiple capacitors discharge at the same time, causing a temporary rise in ground potential.
+
+3. **Voltage Droop**  
+   - This happens when multiple capacitors demand voltage simultaneously, leading to a temporary drop in supply voltage.
+
+## Solution: **Power Mesh Architecture**
+
+To mitigate these issues:
+- Multiple power supply connections are added instead of a single supply.
+- The circuit draws power from the nearest supply.
+
+  ![image](https://github.com/user-attachments/assets/ae87229e-ed50-4ee0-932b-4d3d687871c2)
+
+- **VDD** and **VSS** are connected in a **vertical and horizontal power mesh** to distribute power efficiently.
+![Image](https://github.com/user-attachments/assets/1aff0b22-7617-435d-baa8-74f742f78323)
 
