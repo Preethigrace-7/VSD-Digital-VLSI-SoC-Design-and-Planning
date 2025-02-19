@@ -891,3 +891,100 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 - Ensure that the tech file path and `picorv32a.floorplan.def` are correctly set for your design.  
 
 ---
+
+### SKY_L8 - Review Floorplan Layout in Magic  
+
+### *Centering the Layout*
+- Press **S** to select.  
+- Press **V** to center the selected area.  
+
+### *Navigating the Layout*
+- **Selecting a region**:  
+  - Left-click on one corner.  
+  - Right-click on the opposite corner.  
+- **Zooming**:  
+  - Press **Z** to zoom in.  
+  - Press **Shift + Z** to zoom out.  
+![image](https://github.com/user-attachments/assets/6483a9ea-2292-4d59-9849-ef902e2898c8)
+
+### *Observing Floorplan Components*
+- Input and output pins are placed as per design.  
+- **Tap cells** are arranged to avoid latch-up conditions by connecting **nwell to VDD**.  
+- **Decoupling (DCAP) cells** are placed at the boundary for power stability.  
+![image](https://github.com/user-attachments/assets/e9f4c0e1-7674-4330-b5c3-ef71c4a70be3)
+
+
+### *Inspecting Cell Details in `tkcon`*
+1. Move the cursor over a pin or cell.  
+2. Press **S** to select it.  
+3. Open the **tkcon** window and type:  
+
+   ```sh
+   what
+   ```
+![image](https://github.com/user-attachments/assets/a1807a7d-5921-48bd-9519-15659adf9c8c)
+
+   - This command displays the **cell layer and name**.
+   ![image](https://github.com/user-attachments/assets/f6c2d6ee-14de-4c8e-b5ba-167a428c0c57)
+
+
+### *Placement of Standard Cells*
+- Standard cells are present in the floorplan but are not yet placed in the designated area.  
+- Initially, they appear in the **lower corner** of the layout.  
+![image](https://github.com/user-attachments/assets/86a7ce9c-f0a9-473c-84d4-86404101d67c)
+
+---
+
+## SKY130_D2_SK2 - Library Binding and Placement  
+### SKY1_L1 - Netlist Binding and Initial Place Design  
+
+### *Placement and Routing*
+
+### 1. Bind Netlist with Physical Cells  
+- The **shape of gates** determines functionality, but in reality, everything is represented as **rectangular or square boxes**.  
+- Each **flip-flop, NOT gate, AND gate**, etc., is assigned a proper **width and height**.  
+- These **predefined shapes** are stored in the **library**, which also contains **timing information** for each cell.
+  ![image](https://github.com/user-attachments/assets/714d4ca9-db97-480c-b715-35f914742f76)
+
+- **Types of libraries**:  
+  - One **library** stores **physical dimensions** (width & height).  
+  - Another **library** stores **timing-related** information.  
+- The same cell is available in **multiple sizes**:  
+  - **Larger size** → **Faster operation** (Lower delay).  
+  - **Smaller size** → **Higher delay**.  
+- Cells are selected based on **timing constraints** in the design.
+  ![image](https://github.com/user-attachments/assets/b68b272d-485b-4c89-a72c-4bba0997febd)
+
+
+### 2. Placement  
+- This step **places all the standard cells** onto the floorplan based on the netlist connectivity.  
+- The **cells are positioned in the core area** while ensuring optimized **signal paths**.  
+- Placement follows the **logical structure of the netlist** as illustrated in the design diagram.
+  ![image](https://github.com/user-attachments/assets/cea8df12-faec-464b-bfab-0fdc7174c537)
+
+---
+
+
+### SKY_L2 - Optimize Placement Using Estimated Wire Length  
+
+### *3. Optimize Placement*
+
+### Signal Integrity Considerations  
+- To maintain **signal integrity**, we **add repeaters (buffers)**.  
+- Buffers help in transmitting signals across **long distances** (beyond a default threshold).  
+- However, excessive buffer insertion **increases area usage**, so **optimization is necessary**.  
+![image](https://github.com/user-attachments/assets/c68e0d17-8e89-4747-982d-e254f0eb72c2)
+
+### **Wire Length and Capacitance Estimation**  
+- **Wire length estimation** helps in determining **capacitance values**.  
+- **Higher capacitance** requires **more charge** to drive, leading to **higher slew rates**.  
+- Based on estimated capacitance, **repeaters are inserted** at strategic points.  
+
+### **Buffer Functionality**  
+- Buffers **regenerate the received signal** and **transmit it further** to either:  
+  - Another **buffer** (if the distance is large).  
+  - The **target cell** (if within range).  
+
+This optimization step ensures **efficient signal transmission** while **minimizing area overhead**.  
+
+---
