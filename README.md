@@ -836,8 +836,58 @@ To run floorplan, use the following command:
 run_floorplan
 ``` 
 ![image](https://github.com/user-attachments/assets/47b1e4c4-0eb8-4c58-b8e6-24be2b8c4868)
+
 ![image](https://github.com/user-attachments/assets/3945971b-eea9-40e2-b756-5946575d79a3)
 
+---
 
+### SKY_L7 - Review Floorplan Files and Steps to View Floorplan  
+
+### *Checking Floorplan Changes*
+
+1. Navigate to the `runs` folder to check if the changes have been applied:  
+
+   ```sh
+   cd runs/<latest_run>/logs/floorplan
+   less io_placer.log
+   ```
+  ![image](https://github.com/user-attachments/assets/9e5d7128-e040-4217-b7d5-5fd6d1aef3f8)
+
+   - This log file contains details of I/O placement using system defaults.  
+   - Verify if the expected modifications are reflected.
+
+  ![image](https://github.com/user-attachments/assets/23342568-a049-471e-a9c0-376db6a30cfb)
+
+
+2. To check all parameters accepted by the current flow, inspect `config.tcl` in the `runs` folder:  
+
+   ```sh
+   less runs/<latest_run>/config.tcl
+   ```
+![image](https://github.com/user-attachments/assets/00922567-8da7-4d03-8496-ec5cbd0199c2)
+
+
+### *Viewing Floorplan*
+
+1. The floorplan results can be found in the `results/floorplan` directory.
+   
+   ![image](https://github.com/user-attachments/assets/b1890c3e-7885-4a08-97e9-a0982cc4a2e9)
+
+2. The `.def` file (Design Exchange Format) contains placement orientation, placement details, and die area.
+
+![image](https://github.com/user-attachments/assets/5a04408b-e5b7-417f-a7dd-3f2e5987be62)
+
+### Opening Floorplan in Magic  
+
+![image](https://github.com/user-attachments/assets/445ebf36-9731-4e63-ba37-d4a34b067ad7)
+
+To visualize the floorplan using **Magic**, use the following commands:  
+
+```sh
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+
+- `&` at the end frees up the terminal prompt, allowing further commands to be entered.  
+- Ensure that the tech file path and `picorv32a.floorplan.def` are correctly set for your design.  
 
 ---
