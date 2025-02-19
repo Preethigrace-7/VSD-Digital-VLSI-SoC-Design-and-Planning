@@ -725,3 +725,51 @@ To mitigate these issues:
 - **VDD** and **VSS** are connected in a **vertical and horizontal power mesh** to distribute power efficiently.
 ![Image](https://github.com/user-attachments/assets/1aff0b22-7617-435d-baa8-74f742f78323)
 
+---
+
+### SKY_L5 - Pin Placement and Logical Cell Placement Blockage
+
+### *Pin Placement Strategy*
+
+Let's consider a design with:
+- **2 Flip-Flops (FFs)**
+- **1 NOT Gate**
+- **1 AND Gate**
+- **Preplaced Cells**: Block A, Block B, and Block C
+![image](https://github.com/user-attachments/assets/a0b0169f-f677-4168-be80-c731be1cd21b)
+
+![image](https://github.com/user-attachments/assets/8a126c2c-2acb-4f21-9999-f9618cfb8991)
+
+
+### *Circuit Description:*
+- **Block A** takes `Din1` and `Din2` as inputs and connects to the AND gates of both circuits.
+- **Block B** takes inputs from two different clocks (`clk1`, `clk2`) and outputs `clkout`.
+- **Block C** takes `Din3` and `Din4` and connects to the AND gates of the third and fourth circuits.
+
+  ![image](https://github.com/user-attachments/assets/7de10588-c3fb-4e8f-aec4-14427aae0852)
+
+
+### *Port Placement in the Chip:*
+1. **Input Ports on the Left**  
+   - All input signals (`Din1`, `Din2`, `Din3`, `Din4`, `Clk1`, `Clk2`) are placed on the left side.
+   
+2. **Output Ports on the Right**  
+   - All outputs (`Dout1`, `Dout2`,`Dout3`, `Dout4`, `Clkout`) are placed on the right side.
+![image](https://github.com/user-attachments/assets/48832fc6-583a-4b32-a973-3bd231585151)
+
+3. **Preplaced Cells & Port Alignment**  
+   - Ports are placed **close to preplaced cells** since their positions are fixed.
+   - This ensures **shorter wire lengths** and **efficient routing**.
+
+4. **Clock Ports Considerations**  
+   - **Clock ports are larger** than data ports.
+   - This reduces resistance, ensuring a stable clock signal throughout the chip.
+
+### *Logical Cell Placement Blockage*
+- The **reserved area** around ports ensures that no other standard cells are placed there.
+- Only **ports** are allowed in these regions.
+![image](https://github.com/user-attachments/assets/ac3d446c-1baa-4722-8731-7afb7944ca90)
+
+This completes the **placement stage**, ensuring an optimized layout for further design steps.
+
+
