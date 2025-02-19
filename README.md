@@ -736,6 +736,7 @@ Let's consider a design with:
 - **1 NOT Gate**
 - **1 AND Gate**
 - **Preplaced Cells**: Block A, Block B, and Block C
+  
 ![image](https://github.com/user-attachments/assets/a0b0169f-f677-4168-be80-c731be1cd21b)
 
 ![image](https://github.com/user-attachments/assets/8a126c2c-2acb-4f21-9999-f9618cfb8991)
@@ -754,7 +755,8 @@ Let's consider a design with:
    - All input signals (`Din1`, `Din2`, `Din3`, `Din4`, `Clk1`, `Clk2`) are placed on the left side.
    
 2. **Output Ports on the Right**  
-   - All outputs (`Dout1`, `Dout2`,`Dout3`, `Dout4`, `Clkout`) are placed on the right side.
+   - All outputs (`Dout1`, `Dout2`, `Dout3`, `Dout4`, `Clkout`) are placed on the right side.
+     
 ![image](https://github.com/user-attachments/assets/48832fc6-583a-4b32-a973-3bd231585151)
 
 3. **Preplaced Cells & Port Alignment**  
@@ -768,8 +770,74 @@ Let's consider a design with:
 ### *Logical Cell Placement Blockage*
 - The **reserved area** around ports ensures that no other standard cells are placed there.
 - Only **ports** are allowed in these regions.
+  
 ![image](https://github.com/user-attachments/assets/ac3d446c-1baa-4722-8731-7afb7944ca90)
 
 This completes the **placement stage**, ensuring an optimized layout for further design steps.
 
+---
+ 
+### SKY_L6 - Steps to Run Floorplan Using OPENLANE  
 
+We are covering floorplan.  
+
+After the synthesis flow, the next stage is floorplanning.  
+- Standard cell placement happens in the placement stage.  
+- Macros are placed in the floorplanning stage.   
+
+### *Checking Required Variables*
+To check the variables required for each stage, navigate to the `README.md` file in the OpenLane configuration folder:  
+
+```sh
+cd $OPENLANE_ROOT/configuration
+less README.md
+```
+![image](https://github.com/user-attachments/assets/7ccb5c8c-6d91-41c8-9f91-c8f3acaa2748)
+
+
+For floorplan, we need to check the following variables:  
+
+- `FP_IO_HMETAL`  
+- `FP_IO_VMETAL`  
+- `FP_CORE_UTIL`  
+
+To check the definitions and default values of these variables, use:  
+
+```sh
+grep 'FP_IO_HMETAL' README.md
+grep 'FP_IO_VMETAL' README.md
+grep 'FP_CORE_UTIL' README.md
+```  
+
+### *Understanding the PnR Flow*
+
+- Initially, the Place & Route (PnR) flow is iterative.  
+- After congestion analysis, we need to meet timing constraints.  
+
+### *Setting Configuration Variables*
+
+Each stage has a default settings file in the OpenLane `configuration` folder.  
+We can override these settings in `config.tcl` in the `design` folder.  
+
+![image](https://github.com/user-attachments/assets/f83486eb-5082-4b20-9159-989ba108893c)
+
+
+The priority order for configurations:  
+1. **System default (lowest priority)**  
+2. **config.tcl in the design folder**  
+3. **sky130A_sky130_fd_sc_hd_config.tcl in the picorv32a folder (highest priority)**  
+
+Once the configuration is set, we can run the floorplan using: 
+
+### *Command to Run Floorplan*
+To run floorplan, use the following command:  
+
+```sh
+run_floorplan
+``` 
+![image](https://github.com/user-attachments/assets/47b1e4c4-0eb8-4c58-b8e6-24be2b8c4868)
+![image](https://github.com/user-attachments/assets/3945971b-eea9-40e2-b756-5946575d79a3)
+
+
+
+---
