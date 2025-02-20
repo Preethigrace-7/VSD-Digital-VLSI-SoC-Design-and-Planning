@@ -1258,3 +1258,97 @@ After running all steps in **GUNA**, we obtain:
 - **Functional Library (LIB) File for Further Use**
 
   ---
+
+## SKY130_D2_SK4 - General Timing Characterization Parameters  
+
+### **SKY_L1 - Timing Threshold Definitions**  
+
+### *Overview*
+In this section, we define key timing threshold parameters used in **timing.lib** and **power.lib** files. These parameters help in waveform analysis and delay characterization.  
+
+### *Waveform Threshold Definitions*
+
+1. **Slew Low Rise Threshold (`slew_low_rise_thr`)**  
+   - Defines the **80% voltage point** of the rising edge.  
+   - **Low** means the initial voltage is close to **0V**.  
+![image](https://github.com/user-attachments/assets/44c42cbc-a7dd-4ed9-be5e-8969fbfd7d80)
+
+2. **Slew High Rise Threshold (`slew_high_rise_thr`)**  
+   - Defines the **20% voltage point** of the rising edge.  
+   - Used to calculate the **rise time (slew rate)** by finding the time difference between **80% and 20% points**.  
+![image](https://github.com/user-attachments/assets/ca43fafb-08c1-4efb-848e-f8e923335a11)
+
+3. **Slew Low Fall Threshold (`slew_low_fall_thr`)**  
+   - Defines the **80% voltage point** of the falling edge.  
+   - The voltage decreases towards **0V**.  
+![image](https://github.com/user-attachments/assets/10bbb110-e5c1-40a0-a770-1298978e3b82)
+
+4. **Slew High Fall Threshold (`slew_high_fall_thr`)**  
+   - Defines the **20% voltage point** of the falling edge.  
+   - Used to calculate **fall time (slew rate)**.  
+![image](https://github.com/user-attachments/assets/f4412d1f-03b8-4fa3-aac6-f196dacf4463)
+
+
+### *Input and Output Threshold Definitions*
+
+5. **Input Rise Threshold (`in_rise_thr`)**  
+   - Defines the voltage point where the input signal is considered as **rising**.  
+![image](https://github.com/user-attachments/assets/0d4984fa-1822-4b03-bdf4-f432a8b665b3)
+
+6. **Input Fall Threshold (`in_fall_thr`)**  
+   - Defines the voltage point where the input signal is considered as **falling**.  
+
+7. **Output Rise Threshold (`out_rise_thr`)**  
+   - Defines the voltage point where the output signal starts **rising**.  
+![image](https://github.com/user-attachments/assets/c72adf22-572b-4a9e-8047-d525720bb89f)
+
+8. **Output Fall Threshold (`out_fall_thr`)**  
+   - Defines the voltage point where the output signal starts **falling**.  
+![image](https://github.com/user-attachments/assets/c225738a-64ae-4a8a-a14e-cd3238749e39)
+
+---
+
+### **Timing Characterization in `.lib` Files**  
+- These thresholds are used in **Liberty (.lib) timing models** to define **propagation delay, transition time, and setup/hold constraints**.  
+
+---
+
+### SKY_L2 - Propagation Delay and Transition Time  
+
+### *1. Propagation Delay Definition*
+Propagation delay (\(t_{pd}\)) is the time difference between the input signal and the corresponding output signal transition.  
+
+### Formula for Delay Calculation
+\[
+t_{pd} = \text{time}(out\_thr) - \text{time}(in\_thr)
+\]
+where:  
+- `out_thr` = Output threshold voltage (typically 50%)  
+- `in_thr` = Input threshold voltage (typically 50%)
+  ![image](https://github.com/user-attachments/assets/59c6c519-7cc2-4a5a-afd1-84bb1a8029b6)
+
+
+A correct choice of threshold voltage ensures positive delay.  
+If the threshold is incorrect, it may result in negative delay.  
+
+### **Wire Delay Impact**  
+If a wire introduces delay before the input signal reaches the logic gate, it can lead to a negative delay.  
+Even with correct threshold selection, wire delays can distort timing.  
+![image](https://github.com/user-attachments/assets/c3143e66-3a92-4efd-82d3-5cb40875fa5f)
+
+---
+
+### *2. Transition Time (Slew Rate)*
+Transition time refers to the time taken for a signal to transition from **low to high** or **high to low**.  
+
+### **Typical Threshold Values for Transition Calculation**  
+- **Low Threshold (20%)**: 0.36V  
+- **High Threshold (80%)**: 1.44V  
+![image](https://github.com/user-attachments/assets/292db359-0882-4c52-becc-29daaeb6b452)
+
+### **Formula for Slew Calculation**  
+\[
+t_{slew} = \text{time}(80\%) - \text{time}(20\%)
+\]
+- This gives the **rise time** or **fall time**.  
+- Direct subtraction of threshold timing values provides **slew rate**.  
