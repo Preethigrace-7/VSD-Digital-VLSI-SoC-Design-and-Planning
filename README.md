@@ -925,7 +925,6 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 ![image](https://github.com/user-attachments/assets/a1807a7d-5921-48bd-9519-15659adf9c8c)
 
    - This command displays the **cell layer and name**.
-   ![image](https://github.com/user-attachments/assets/f6c2d6ee-14de-4c8e-b5ba-167a428c0c57)
 
 
 ### *Placement of Standard Cells*
