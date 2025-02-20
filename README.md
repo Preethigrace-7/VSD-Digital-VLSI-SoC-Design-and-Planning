@@ -971,7 +971,7 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 
 ### Signal Integrity Considerations  
 - To maintain **signal integrity**, we **add repeaters (buffers)**.  
-- Buffers help in transmitting signals across **long distances** (beyond a default threshold).  
+- Buffers help transmit signals across **long distances** (beyond a default threshold).  
 - However, excessive buffer insertion **increases area usage**, so **optimization is necessary**.  
 ![image](https://github.com/user-attachments/assets/c68e0d17-8e89-4747-982d-e254f0eb72c2)
 
@@ -988,3 +988,273 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 This optimization step ensures **efficient signal transmission** while **minimizing area overhead**.  
 
 ---
+
+### SKY_L3 - Final Placement Optimization  
+
+### *Handling Wire Overlaps*
+- **Wire overlapping** is resolved by **routing them on different metal layers**.  
+- Different layers help in avoiding **short circuits** and **crosstalk** issues.  
+
+### *Final Placement Considerations*
+- **Legalization** ensures all cells are **placed properly** without violations.  
+- **Optimization algorithms** refine placement for **better wire length, timing, and congestion reduction**.  
+- The final placement stage ensures **minimal design rule violations (DRVs)** before routing.  
+
+This step finalizes the **placement of standard cells** while ensuring **signal integrity and manufacturability**.  
+---
+
+### SKY_L4 - Need for Libraries and Characterization
+
+### *Library Characterization and Modeling*
+- **Characterization** is essential for defining the **behavior and timing** of standard cells.
+- A **library** is a collection of gates/cells with **physical, electrical, and timing** attributes.
+- Characterized libraries are used across **placement, clock tree synthesis (CTS), and routing**.
+
+### *Clock Tree Synthesis (CTS)*
+- Ensures the **clock signal reaches all sequential elements (flops)** at the **same time**.
+- Minimizes **clock skew** for accurate timing.
+
+### *Final Routing*
+- **Maze routing** is used to establish **optimal interconnections** between components.
+- Ensures **minimal delay, congestion, and DRV (Design Rule Violations)**.
+![image](https://github.com/user-attachments/assets/450aadbb-8614-4508-8ee0-292ea837a9ca)
+
+### *Static Timing Analysis (STA)*
+- Involves analyzing **data arrival time** and **data required time** for **launch and capture flops**.
+- Ensures timing constraints are met for functional correctness.
+![image](https://github.com/user-attachments/assets/b6d4d496-0bb5-427e-b7d7-77a58fb280e1)
+
+### *Why Library Characterization is Important?*
+- Libraries define the **cells used in all design stages**.
+- Each gate/cell in the library must be **modeled accurately** to ensure the design functions correctly.
+
+### *Next Steps: Understanding Cell Design Flow*
+- We will explore **how cells are designed and characterized** to be used in libraries.
+---
+
+### SKY_L5 - Congestion Aware Placement Using RePlAce
+
+### *Stages of Placement*
+Placement occurs in **two stages**:
+
+1. **Global Placement (Post Placement)**
+   - Reduces **wirelength** using **HPWL (Half-Perimeter Wire Length)**.
+   - Converges design by reducing **overflow (congestion)**.
+
+2. **Detailed Placement**
+   - **Legalization** is performed to ensure:
+     - **No overlaps** between standard cells.
+     - **Timings constraints** are met.
+
+### *Running Placement in OpenLane*
+- Use the following command:
+  ```sh
+  run_placement
+  ```
+  ![image](https://github.com/user-attachments/assets/622636c9-3f3b-4ab1-ae34-5bc8e5e97766)
+
+  ![image](https://github.com/user-attachments/assets/b125d3bc-49b8-46a8-a866-f6f87532f761)
+
+  ![image](https://github.com/user-attachments/assets/f4d2a829-b0dc-47d6-b20f-e81c3ace6ab1)
+
+
+- After running, a `.def` file is created at:
+  ```
+  runs/results/placement/
+  ```
+
+### *Viewing Placement in Magic*
+- Open the placement **DEF file** in **Magic**:
+  ```sh
+  magic -T <tech_file> lef read ../../tmp/merged.lef def read <design>.placement.def &
+  ```
+- The **standard cells** are placed in the **core area**, initially located in the **lower-left corner** of the floorplan.
+![image](https://github.com/user-attachments/assets/16da2801-4d03-407c-bf73-6d3e1ec93fbd)
+
+![Image](https://github.com/user-attachments/assets/d89818b8-de6a-4e7f-9258-05f7ad9ea0d9)
+
+### *Power Distribution Network (PDN)*
+- **PDN creation** typically happens in **floorplanning**, but in OpenLane, the sequence differs.
+- Before **routing**, generate the **PDN** using:
+  ```sh
+  gen_pdn
+  ```
+---
+
+### D2 SK3 - Cell Design and Characterization Flows  
+### **Cell Design Flow**  
+The **cell design flow** involves designing, placing, and routing standard cells used in a digital design.  
+
+### **Standard Cell Library**
+- The **library** contains all standard cells with their **physical and electrical characteristics**.
+- **Sizes** are referred to as **drive strengths**.
+- **Threshold voltage (Vt)** varies for different cells.
+![image](https://github.com/user-attachments/assets/84d84ca7-0d76-49fe-8035-728d7b15d365)
+
+### **SKY_L1 - Inputs for Cell Design Flow**  
+### **Example: Inverter Design**
+An **inverter** has:
+- **Single input**
+- **One output**
+- **Defined drive strength and threshold voltage variations**
+
+### *Cell Design Flow Steps*
+1. **Inputs**
+   - Technology file (PDK)
+   - Specifications (Voltage, Drive strength, Delay requirements)
+   - Library constraints
+
+2. **Design Steps**
+   - **Schematic Design**
+   - **Simulation** (SPICE, Spectre)
+   - **Layout Design**
+   - **DRC & LVS Checks** (Design Rule Check & Layout vs. Schematic)
+   - **Characterization** (Timing, Power, Noise)
+
+3. **Outputs**
+   - Standard Cell Layout
+   - Timing and Power Reports
+   - Extracted Library Files (LEF, LIB, GDSII)
+  
+     ---
+  
+### SKY_L2 - Circuit Design Steps  
+
+### *1. Inputs*
+The inputs required for circuit design include:  
+- **PDK (Process Design Kit)**  
+- **DRC & LVS** (Design Rule Check & Layout vs. Schematic)
+  ![image](https://github.com/user-attachments/assets/1a7e0f0a-35d8-462d-8a28-2b5ae7b905f0)
+
+- **SPICE Models**
+  ![image](https://github.com/user-attachments/assets/91de37c6-77d5-4371-a012-d3dd0e12d843)
+
+
+### Library and User-Defined Specifications
+- **Cell Height:** The height of a standard cell in the library, usually determined by the number of metal routing tracks available.
+![image](https://github.com/user-attachments/assets/cfeb793c-e715-4fe3-a9ea-f7fb1ca2eb98)
+
+- **Supply Voltage (VDD, VSS):** The voltage levels used for power and ground in the circuit, affect performance and power consumption.  
+- **Metal Layers:** The number of metal interconnect layers available for routing signals and power within the design.
+  ![image](https://github.com/user-attachments/assets/9a282fe0-501a-40b1-ad5b-2237d20daf3d)
+
+- **Pin Location:** The fixed positions of input and output pins in the layout, affect routing complexity and signal integrity.
+![image](https://github.com/user-attachments/assets/c8a71e04-df78-434c-8b35-e78bf9d3f82d)
+
+- **Drawn Gate-Length:** The transistor gate's physical length impacts switching speed, leakage, and overall performance.  
+
+### *2. Design Steps*
+- **Circuit Design:**  
+  - Choosing **W/L ratios**  
+  - **Drain current analysis**  
+  - Simulation using **SPICE models**  
+  - Determining **final transistor sizes**  
+
+- **Layout Design:**  
+  - Based on the circuit specifications  
+  - Ensuring compliance with **design rules**  
+
+### *3. Outputs*
+- **CDL (Circuit Description Language):** A netlist format used for circuit verification and integration with other tools.  
+
+---
+
+### SKY_L3 - Layout Design Step  
+
+### *1. Layout Concepts*
+- **Euler’s Path:** A method to determine the optimal transistor placement in a layout by ensuring that each node is visited only once, reducing diffusion breaks.
+  ![image](https://github.com/user-attachments/assets/9ea8dfdc-a297-453a-ac3b-05f32839578e)
+ 
+- **Stick Diagram:** A simplified representation of the circuit layout using colored lines to indicate different layers and connections.
+  ![image](https://github.com/user-attachments/assets/0d186e4e-5b41-443d-be75-f6dc6f9929d3)
+
+
+### *2. Layout Outputs*
+- **GDSII (Graphic Data System II):** The standard file format used for storing IC layout data, required for fabrication.  
+- **LEF (Library Exchange Format):** Contains abstracted cell information like height, width, and pin locations, essential for placement and routing.  
+- **SPICE Netlist (.cir file):** Captures parasitic capacitance and other extracted parameters for post-layout simulation and verification.  
+
+### *3. Layout Generation Process*
+- Layout is created based on the **circuit design** and **foundry DRC & LVS rules** to ensure manufacturability and correctness.  
+---
+
+### SKY_L4 - Buffer Characterization using GUNA  
+
+### **Overview**  
+We have the following components for characterization:  
+- **Layout of Buffer**  
+- **Buffer Description**  
+- **SPICE Extracted Netlist of Buffer**  
+- **Subcircuit File (Contains NMOS and PMOS models)**  
+- **Resistances and Capacitances**  
+
+By combining these elements, we generate the necessary simulation setup for extracting key parameters such as **timing, noise, power, and functional characteristics** using **GUNA software**.  
+
+---
+
+### **Step-by-Step Process**  
+
+### *Step 1: Load Models*
+- Read **NMOS** and **PMOS** models from foundry:  
+  ```spice
+  .model nmos <parameters>
+  .model pmos <parameters>
+  ```
+
+### *Step 2: Load Extracted SPICE Netlist*
+- Read the **SPICE-extracted netlist** of the buffer, which includes parasitic resistances and capacitances.  
+  ```spice
+  .include buffer_extracted.spice
+  ```
+![image](https://github.com/user-attachments/assets/9c4acf6e-26b7-4371-8b57-1f3cf6fb4dde)
+
+### *Step 3: Recognize Buffer Behavior*
+- Identify how the buffer interacts with signals and power sources.  
+
+### *Step 4: Read Subcircuit of Inverter*
+- Attach the **my_inv** subcircuit for logic processing.  
+  ```spice
+  Xinv input output VDD VSS my_inv
+  ```
+
+### *Step 5: Attach Power Sources*
+- Provide **VDD** and **GND** connections to ensure circuit operation.  
+  ```spice
+  VDD VDD 0 1.8V
+  VGND 0 0 0V
+  ```
+
+### *Step 6: Apply Stimulus*
+- Define input signals for analysis (e.g., step, pulse, or sinusoidal inputs).  
+  ```spice
+  Vin input 0 PULSE(0 1.8 0 1n 1n 5n 10n)
+  ```
+
+### *Step 7: Add Output Capacitances*
+- Model load capacitances at the output.  
+  ```spice
+  Cload output 0 10f
+  ```
+![image](https://github.com/user-attachments/assets/a403291f-b734-4039-97a4-19ccb283dea4)
+
+### *Step 8: Set Up Simulation Commands*
+- Define the type of analysis to perform (e.g., **Transient, DC, or AC** analysis).  
+  ```spice
+  .tran 0.1n 10n
+  .dc Vin 0 1.8 0.01
+  ```
+
+### *Step 9: Run GUNA Software for Characterization*
+- Feed all **SPICE netlist files** into GUNA.  
+- Extract parameters such as **timing, noise, power, and functional characteristics**.  
+- Merge the extracted data with the **library characterization process** for final integration.  
+
+
+### *Final Output*
+After running all steps in **GUNA**, we obtain:  
+- **Timing Parameters** (Delays, Transition Time)  
+- **Noise Characteristics**  
+- **Power Consumption**  
+- **Functional Library (LIB) File for Further Use**
+
+  ---
