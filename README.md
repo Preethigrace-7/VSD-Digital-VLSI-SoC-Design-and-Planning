@@ -1416,14 +1416,88 @@ t_{slew} = \text{time}(80\%) - \text{time}(20\%)
 *** NETLIST DESCRIPTION ***
 M1 out in vdd vdd pmos W=0.375u L=0.25u  
 M2 out in 0 0 nmos W=0.375u L=0.25u  
-
-Cload out 0 10fF  
-Vin in 0 DC 2.5V  
-Vdd vdd 0 DC 2.5V  
-
-.tran 0.01n 50n  
-.dc Vin 0 2.5 0.01  
-.end
 ```
+
 ---
 
+### **SKY_L2 - SPICE Simulation Lab for CMOS Inverter**  
+
+#### **1. Transistor Description in SPICE**  
+- Transistor connections: **Drain - Gate - Source - Substrate**  
+- **NMOS (M2) and PMOS (M1) structure**  
+- Load capacitor:  
+  ```spice
+  Cload out 0 10f
+  ```
+- Voltage sources:  
+  ```spice
+  Vdd vdd 0 2.5
+  Vin in 0 2.5
+  ```
+
+#### **2. SPICE Simulation Commands**  
+```spice
+*** Simulation Commands ***
+.op
+.dc Vin 0 2.5 0.05  *Sweeps Vin from 0 to 2.5V in steps of 0.05V*
+```
+- **Operating Point Analysis (`.op`)**  
+- **DC Sweep Analysis (`.dc`)**  
+![image](https://github.com/user-attachments/assets/e94bb90f-cd03-48fd-bd20-6ec2429fc223)
+
+
+#### **3. Model Inclusion**  
+```spice
+*** Include Model File ***
+.include tsmc_025um_model.mod
+.LIB "tsmc_025um_model.mod" CMOS_MODELS
+.end
+```
+![image](https://github.com/user-attachments/assets/28c92f98-7470-4ed5-9b2b-dc58f117b87c)
+
+- Defines transistor characteristics using **TSMC 0.25μm model**  
+
+
+#### **4. Running Simulation in NGSPICE**  
+1. Load the netlist:  
+   ```sh
+   source <filename>.cir
+   ```
+2. Run the simulation:  
+   ```sh
+   run
+   ```
+3. Set the plot:  
+   ```sh
+   setplot
+   dc1
+   ```
+4. Plot Output vs. Input:  
+   ```sh
+   plot out vs in
+   ```
+![image](https://github.com/user-attachments/assets/bf9ba964-6275-427f-a3f1-2bd0d469566d)
+
+
+#### **5. SPICE Simulation for Different W/L Ratios**  
+- **Same W/L for NMOS & PMOS:** \( W/L = 1.5 \)  
+- **Increased PMOS Size:**  
+  - \( W/L \) for NMOS = 1.5  
+  - \( W/L \) for PMOS = 2.5  
+- Follow the same simulation steps as above for different transistor sizes.  
+
+---
+
+### **SKY_L3 - Switching Threshold (Vm) in CMOS Inverter**  
+![image](https://github.com/user-attachments/assets/85a35357-7220-4498-8a08-856cc63c52e1)
+
+- **Definition**: The switching threshold \( V_m \) is the input voltage at which the output voltage equals the input voltage (\( V_{out} = V_{in} \)).  
+- **Importance**:  
+  - Determines the noise margin and stability of the CMOS inverter.  
+  - Ensures robust operation under variations in process, voltage, and temperature (PVT).  
+- **Key Observations**:  
+  - The transfer characteristic curve shifts based on transistor sizing and supply voltage.  
+  - \( V_m \) is typically close to \( V_{DD}/2 \), making CMOS inverters highly reliable for digital logic.  
+![image](https://github.com/user-attachments/assets/bae9962d-4f2e-4bd7-9771-d9d39ebb0d7f)
+
+This property makes CMOS the preferred choice in industries due to its **high noise immunity and low power consumption**.
