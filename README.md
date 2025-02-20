@@ -1350,4 +1350,80 @@ Transition time refers to the time taken for a signal to transition from **low t
 t_{slew} = \text{time}(80\%) - \text{time}(20\%)
 \]
 - This gives the **rise time** or **fall time**.  
-- Direct subtraction of threshold timing values provides **slew rate**.  
+- Direct subtraction of threshold timing values provides **slew rate**.
+---
+
+
+### SKY130 DAY 3 - Design Library Cell using Magic Layout and NGSpice Characterization  
+
+### *SKY130_D3_SK1 - CMOS Inverter NGSpice Simulations*
+- Perform NGSpice simulations for CMOS inverter characterization.  
+- Validate signal transitions, propagation delay, and power characteristics.  
+
+---
+
+### SKY_L0 - IO Placer Revision
+
+### *Downloading and Integrating .mag File*
+- Download the `.mag` file from GitHub.  
+- Integrate the cell into `picorv32a` for verification.  
+
+### **Modifying Configuration in OpenLane**  
+- Update `config.tcl` file:  
+  ```tcl
+  set ::env(FP_IO_MODE) 2
+  ```
+- Run the floorplan again:  
+  ```tcl
+  run_floorplan
+  ```
+- Check the `.def` file to ensure pin placements are updated.
+
+  ---
+
+### SKY_L1 - SPICE Deck Creation for CMOS Inverter  
+
+### *1. VTC - SPICE Simulations*
+- Create a SPICE deck to define the connectivity of components.  
+- Identify tap points and assign component values.  
+
+### *2. Circuit Considerations*
+- **Substrate Tuning:** Adjusts threshold voltage.  
+- **Load Capacitor (Cload):** Depends on input capacitance and circuit parameters.  
+- **Transistor Sizing:**  
+  - PMOS is typically wider than NMOS (2x or 3x).  
+  - Here, both transistors have the same size:  
+    - \( W/L = 0.375\mu m / 0.25\mu m \)  
+- **Operating Conditions:**  
+  - \( V_{in} \) (Gate Voltage) = 2.5V  
+  - \( V_{DD} \) (Drain Voltage) = 2.5V  
+
+### *3. Node Identification*
+- **Definition:** A node is a connection point between two or more components.  
+![image](https://github.com/user-attachments/assets/a4284e89-574d-4b6c-b94f-894396213f47)
+
+### **4. SPICE Deck Structure**  
+1. **Component Connectivity**  
+2. **Component Values**  
+3. **Node Identification**  
+4. **Node Naming**  
+
+### **SPICE Deck Example**  
+
+```spice
+*** MODEL DESCRIPTION ***
+
+*** NETLIST DESCRIPTION ***
+M1 out in vdd vdd pmos W=0.375u L=0.25u  
+M2 out in 0 0 nmos W=0.375u L=0.25u  
+
+Cload out 0 10fF  
+Vin in 0 DC 2.5V  
+Vdd vdd 0 DC 2.5V  
+
+.tran 0.01n 50n  
+.dc Vin 0 2.5 0.01  
+.end
+```
+---
+
