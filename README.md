@@ -388,7 +388,7 @@ Uses **OpenROAD** for automated **PnR (Place & Route)**.
   - Ensures **physical layout matches logical design**.
 
 ---
-### GSKY130_D1_SK3 - Get familiar to open-source EDA tools
+### SKY130_D1_SK3 - Get familiar to open-source EDA tools
 
 ### *SKY_L1 - OpenLANE Directory structure in detail*
 OpenLANE is a **complete RTL-to-GDSII flow** for ASIC design, integrating multiple open-source EDA tools:
@@ -592,7 +592,7 @@ Once the **Static Timing Analysis (STA)** is done and synthesis has occurred, we
 - we need to check the synthesis reports to validate the number of flip-flops and total cells.
 
 ---
-## SKY130 Day 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells
+## Day 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells
 
 ### SKY130_D2_SK1 - Chip Floor Planning Considerations
 
@@ -1080,7 +1080,7 @@ Placement occurs in **two stages**:
   ```
 ---
 
-### D2 SK3 - Cell Design and Characterization Flows  
+### D2_SK3 - Cell Design and Characterization Flows  
 ### **Cell Design Flow**  
 The **cell design flow** involves designing, placing, and routing standard cells used in a digital design.  
 
@@ -1354,7 +1354,7 @@ t_{slew} = \text{time}(80\%) - \text{time}(20\%)
 ---
 
 
-### SKY130 DAY 3 - Design Library Cell using Magic Layout and NGSpice Characterization  
+## SKY130 DAY 3 - Design Library Cell using Magic Layout and NGSpice Characterization  
 
 ### *SKY130_D3_SK1 - CMOS Inverter NGSpice Simulations*
 - Perform NGSpice simulations for CMOS inverter characterization.  
