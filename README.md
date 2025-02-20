@@ -1501,3 +1501,118 @@ M2 out in 0 0 nmos W=0.375u L=0.25u
 ![image](https://github.com/user-attachments/assets/bae9962d-4f2e-4bd7-9771-d9d39ebb0d7f)
 
 This property makes CMOS the preferred choice in industries due to its **high noise immunity and low power consumption**.
+
+---
+
+### **SKY_L4 - Static and Dynamic Analysis of CMOS Inverter**  
+
+### *1. Determining the Switching Threshold (\( V_m \))*
+- To find \( V_m \), draw a **45-degree line** from the origin on the Voltage Transfer Characteristic (VTC) curve.  
+- The intersection of this line with the inverter’s transfer curve gives the switching threshold \( V_m \).  
+
+### *2. Pulse Definition for Transient Analysis*
+```spice
+Vin in 0 0 pulse(0 2.5 0 10p 10p 1n 2n)
+```
+- This defines a **pulse waveform**:
+  - Starts at **0V**.
+  - **Rises to 2.5V**.
+  - Rise time: **10 ps**, Fall time: **10 ps**.
+  - Pulse width: **1 ns**.
+  - Period: **2 ns**.  
+
+### *3. Measuring Rise Delay in ngspice*
+- Run transient analysis in ngspice.  
+- Click on the rising edge in the waveform viewer to measure **rise delay**.  
+- **Rise delay** is the time difference between **50% of input rise and 50% of output rise**.  
+
+This helps in analyzing the **static and dynamic behavior** of the CMOS inverter.
+
+---
+
+### **SKY_L5 - Lab Steps to Clone and Open VSD Standard Cell Design**  
+
+### *1. Clone the Repository*
+Run the following command inside the **OpenLane** directory:  
+```sh
+wget https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+or  
+```sh
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+
+### *2. Navigate to the Cloned Folder*
+```sh
+cd vsdstdcelldesign
+```
+
+### *3. Copy the Technology File*
+Copy the necessary tech file into the folder using:  
+go to where .tech file is located
+/home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic
+then 
+
+```sh
+cp sky130A.tech /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign/
+```  
+
+#### **4. Open the Layout in Magic**  
+Launch **Magic** and open the `.mag` file:  
+```sh
+magic -T sky130A.tech sky130_inv.mag
+```
+This will load the **VSD Inverter (vsd_inv)** layout for further modifications or analysis.
+![image](https://github.com/user-attachments/assets/308efc6c-d28b-45d3-a284-f331206174e8)
+
+---
+
+### SKY130_D3_SK2 - Inception of Layout: A CMOS Fabrication Process
+
+### SKY_L1 - Create Active Region
+
+### 1. Selecting a Substrate
+- **Substrate Type**: P-type (most commonly used)
+- **Resistivity**: 5-50 ohm-cm
+- **Doping Level**: ~10¹⁵ cm⁻³
+- **Doping Level Consideration**: Should be lower than well doping
+- **Crystal Orientation**: 100
+    ![image](https://github.com/user-attachments/assets/28e14713-9fdb-40c7-a756-355937870365)
+
+
+### 2. Creating Active Region for Transistors
+Active regions are where PMOS and NMOS transistors are formed.
+
+#### Steps:
+1. **Ensure Active Region Isolation**: The active region should not interfere with the P-substrate.
+2. **Deposition Process**:
+   - **Silicon Oxide (~40nm)**: Acts as an insulator.
+   - **Silicon Nitride (~80nm)**: Acts as a mask layer.
+3. **Photoresist Deposition (~1µm)**:
+   - Apply a photoresist layer to define well regions.
+4. **Photolithography Process**:
+   - Use **UV light** to expose the mask-defined areas.
+   - **No chemical reaction** occurs under masked regions.
+    ![image](https://github.com/user-attachments/assets/d913389b-e616-4837-9227-05b67c9196f0)
+
+5. **Etching Process**:
+   - Wash off unexposed photoresist.
+   - Remove silicon nitride from exposed areas.
+   - Strip the remaining photoresist layer.
+   
+    ![image](https://github.com/user-attachments/assets/21e2997e-2de7-4d4a-b649-acadd8741a6f)
+
+6. **Furnace Treatment**:
+   - Formation of **isolation areas** to prevent communication between wells.
+   - Growth of **Field Oxide (LOCOS - Local Oxidation of Silicon)**.
+   
+    ![image](https://github.com/user-attachments/assets/b8812184-170f-4cda-a9e6-1a7e21f11ef5)
+
+7. **Final Furnace Treatment**:
+   - Remove remaining **silicon nitride layer** completely.
+
+
+- The isolation area forms a structure known as **Bird's Beak** due to oxide encroachment.
+![image](https://github.com/user-attachments/assets/f0d6ff85-1892-406f-bfe1-b96e968f3ea7)
+
+- These steps ensure that the transistors are electrically isolated before further processing.
