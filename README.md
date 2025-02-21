@@ -2,7 +2,7 @@
   <img src="https://www.vlsisystemdesign.com/wp-content/uploads/2016/12/vsd_logo.jpg" alt="VSD Logo" width="250">
 </p>
 
-# Digital VLSI SoC Design and Planning 15 Days Learning Journey
+# Digital VLSI SoC Design and Planning 
 
 This repository documents my learnings from the **Digital VLSI SoC Design and Planning** course by **VLSI System Design (VSD)**. Over 15 days, I have explored key concepts, methodologies, and tools used in SoC design, documenting my progress and insights here.
 
@@ -11,6 +11,36 @@ This repository documents my learnings from the **Digital VLSI SoC Design and Pl
 - **Duration:** 2 Weeks (15 Days)  
 - **Platform:** VLSI System Design (VSD)
 
+## Table of Contents
+- [Course Details](#course-details)
+- [Day 1 - Inception of Open-Source EDA, OpenLANE, and Sky130 PDK](#day-1---inception-of-open-source-eda-openlane-and-sky130-pdk)
+- [SKY130_D1_SK1 - How to Talk to Computers](#sky130_d1_sk1---how-to-talk-to-computers)
+- [SKY_L1 - Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs](#sky_l1---introduction-to-qfn-48-package-chip-pads-core-die-and-ips)
+- [SKY_L2 - Introduction to RISC-V](#sky_l2---introduction-to-risc-v)
+- [SKY_L3 - From Software Applications to Hardware](#sky_l3---from-software-applications-to-hardware)
+- [Day 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells](#day-2---good-floorplan-vs-bad-floorplan-and-introduction-to-library-cells)
+- [SKY130_D2_SK1 - Chip Floor Planning Considerations](#sky130_d2_sk1---chip-floor-planning-considerations)
+- [SKY_L1 - Utilization Factor and Aspect Ratio](#sky_l1---utilization-factor-and-aspect-ratio)
+- [SKY_L2 - Concept of Pre-Placed Cells](#sky_l2---concept-of-pre-placed-cells)
+- [SKY_L3 - De-coupling Capacitors](#sky_l3---de-coupling-capacitors)
+- [SKY_L4 - Power Planning](#sky_l4---power-planning)
+- [SKY_L5 - Pin Placement and Logical Cell Placement Blockage](#sky_l5---pin-placement-and-logical-cell-placement-blockage)
+- [Day 3 - Design Library Cell using Magic Layout and NGSpice Characterization](#day-3---design-library-cell-using-magic-layout-and-ngspice-characterization)
+- [SKY130_D3_SK1 - CMOS Inverter NGSpice Simulations](#sky130_d3_sk1---cmos-inverter-ngspice-simulations)
+- [SKY_L1 - SPICE Deck Creation for CMOS Inverter](#sky_l1---spice-deck-creation-for-cmos-inverter)
+- [SKY_L2 - SPICE Simulation Lab for CMOS Inverter](#sky_l2---spice-simulation-lab-for-cmos-inverter)
+- [Day 4 - Placement and Optimization](#day-4---placement-and-optimization)
+- [SKY130_D4_SK1 - Placement Techniques](#sky130_d4_sk1---placement-techniques)
+- [SKY_L1 - Global and Detailed Placement](#sky_l1---global-and-detailed-placement)
+- [SKY_L2 - Optimization Strategies](#sky_l2---optimization-strategies)
+- [Day 5 - Clock Tree Synthesis (CTS) and Routing](#day-5---clock-tree-synthesis-cts-and-routing)
+- [SKY130_D5_SK1 - Clock Tree Synthesis](#sky130_d5_sk1---clock-tree-synthesis)
+- [SKY_L1 - CTS Techniques](#sky_l1---cts-techniques)
+- [SKY_L2 - Routing Strategies](#sky_l2---routing-strategies)
+- [Acknowledgments](#acknowledgments)
+- [References](#references)
+
+---
 ## **Day 1 - Inception of Open-Source EDA, OpenLANE, and Sky130 PDK**
 ### **SKY130_D1_SK1 - How to Talk to Computers**
 ### **SKY_L1 - Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs**
