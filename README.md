@@ -2795,13 +2795,6 @@ write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/des
    - **Global Routing**
 ![image](https://github.com/user-attachments/assets/140424c5-58ac-4460-9589-85b57b990522)
 
-3. **Run the following command to generate the Power Delivery Network (PDN):**
-   ```sh
-   gen_pdn
-   ```
-![image](https://github.com/user-attachments/assets/86f05571-c979-40da-9320-18bbbf9b0576)
-![image](https://github.com/user-attachments/assets/abc4b3f0-17a1-401f-8de2-b48ac1826140)
-
 ---
 
 ### SKY130_D4_SK4- Timing analysis with real clocks using openSTA
@@ -3163,3 +3156,60 @@ When routing two wires, **minimum spacing and width constraints** must be follow
   ![image](https://github.com/user-attachments/assets/f6d36d07-178f-4647-ac52-dbf2a8b26cd5)
 
 ---
+
+### SKY_L1 - Design Preparation and Updates
+
+### Step 1: Preparing the Design
+To update variables and ensure the design reflects the latest changes, run:
+```tcl
+prep -design picorv32a -tag 12-02_06-52 -overwrite
+```
+
+### Step 2: Updating LEF Files in OpenLane
+If new LEF files were added, include them in the OpenLane flow:
+```tcl
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+```
+
+### Step 3: Setting Synthesis Parameters
+Modify synthesis strategy and sizing:
+```tcl
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+set ::env(SYNTH_SIZING) 1
+```
+I have set these in config.tcl , for not repeating every time I don't need to set.
+### Step 4: Running Synthesis
+Once the design is prepped, execute synthesis:
+```tcl
+run_synthesis
+```
+
+### Step 5: Floorplanning Steps
+The following commands are included in `run_floorplan`:
+```tcl
+init_floorplan
+place_io
+tap_decap_or
+```
+
+### Step 6: Placement
+To perform placement, use either:
+```tcl
+run_placement
+```
+or execute individual placement steps:
+```tcl
+global_placement_or
+detailed_placement
+run_pdn
+```
+After running **Power Distribution Network (PDN)**, we obtain **standard power rails**.
+![image](https://github.com/user-attachments/assets/f59c5554-5ae8-40bd-bb45-842024991936)
+
+![image](https://github.com/user-attachments/assets/9fc39c44-2963-440f-b2b4-296038c0a4e8)
+we can see the width, and pitch here of metal layers
+
+---
+
+
