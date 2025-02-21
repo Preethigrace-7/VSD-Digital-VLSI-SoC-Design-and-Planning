@@ -3198,10 +3198,16 @@ To perform placement, use either:
 ```tcl
 run_placement
 ```
+
 or execute individual placement steps:
 ```tcl
 global_placement_or
 detailed_placement
+```
+![image](https://github.com/user-attachments/assets/1f47ddd5-8da8-48ae-95ce-dfdec8f535b6)
+![image](https://github.com/user-attachments/assets/6eacdba6-927e-4579-b14b-cce9ea5916ac)
+
+```
 run_pdn
 ```
 After running **Power Distribution Network (PDN)**, we obtain **standard power rails**.
@@ -3212,4 +3218,145 @@ we can see the width, and pitch here of metal layers
 
 ---
 
+### SKY_L2 - Routing Explanation
+![image](https://github.com/user-attachments/assets/5e179b9c-3cb7-49ab-a2bf-3806cd26a098)
+
+### Power and Ground Pads
+- **Red pad** → Represents the **Power pad**.
+- **Blue pad** → Represents the **Ground pad**.
+
+### Power Distribution Network (PDN)
+- **Red and blue lines** → Represent **power and ground straps**.
+- **Power flow**:
+  1. Power is delivered to the **power ring**.
+  2. The power ring distributes it to **straps**.
+  3. Straps then transfer power to **rails**.
+  4. Finally, power reaches individual **cells**.
+
+### Checking Current DEF Before Routing
+Before running routing, verify the current DEF file:
+```tcl
+echo $::env(CURRENT_DEF)
+```
+This ensures the correct placement data is used before proceeding with routing.
+![image](https://github.com/user-attachments/assets/731ad56b-d245-40f7-b455-5b138548fb3e)
+after pdn the def files created
+
+---
+
+### SKY2_L3 - Routing in Magic and TritonRoute
+
+### Loading PDN DEF in Magic Tool
+To visualize and verify the Power Distribution Network (PDN) in Magic:
+```tcl
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech \
+      lef read ../../tmp/merged.lef \
+      def read 14-pdn.def &
+```
+![image](https://github.com/user-attachments/assets/a34ca4d8-9f46-497e-abe5-a195b05ba30d)
+![image](https://github.com/user-attachments/assets/8da58b5b-901e-46db-a74e-7830ab9b842f)
+
+
+
+### Running Routing
+```tcl
+run_routing
+```
+Routing is performed using **TritonRoute**, which consists of two phases:
+![image](https://github.com/user-attachments/assets/95da15e8-5288-4948-aedb-f16f1da595ba)
+
+1. **Fast Route**
+   - Generates an initial set of **routing guides**.
+   - Helps direct the **detailed routing** process.
+
+2. **Detailed Route**
+   - Uses **routing algorithms** to optimize wire connections.
+   - Ensures minimal **wire length, congestion, and DRC violations**.
+
+The detailed routing phase produces the final routed design with **optimized** connections.
+---
+
+
+### SKY3_L1 - TritonRoute and Routing Schemes
+
+### **TritonRoute for Detailed Routing**
+TritonRoute performs **detailed routing** using a structured approach to ensure efficient and optimized wire connections.
+
+### **Routing Scheme**
+TritonRoute follows a **pane routing scheme** with:
+1. **Intra-layer parallel routing**:
+   - Routes wires in the same metal layer parallel to each other.
+   - Optimizes for minimal congestion and short paths.
+
+2. **Inter-layer sequential routing**:
+   - Routes wires sequentially across multiple metal layers.
+   - Ensures proper **via placement** and **signal integrity**.
+
+### **Routing Guides**
+- Routing guides are pre-generated to **direct detailed routing**.
+- They help **avoid congestion** and ensure **Design Rule Compliance (DRC)**.
+![image](https://github.com/user-attachments/assets/77a4cefe-287d-47aa-843e-f49e2a372f80)
+
+---
+
+### SKY3_L2 - Intra-Layer Parallel and Inter-Layer Sequential Panel Routing
+
+### **Panel Routing Concept**
+Panel routing is a structured approach used in **detailed routing** to efficiently connect wires while optimizing space and reducing congestion.
+
+### **1. Intra-Layer Parallel Routing**
+- Wires within the **same metal layer** are routed in a **parallel fashion**.
+- This ensures **minimal interference** and **efficient track utilization**.
+- Helps in **reducing delays** and **minimizing RC parasitics**.
+
+### **2. Inter-Layer Sequential Routing**
+- Wires moving across **different metal layers** are routed **sequentially**.
+- **Vias** are used to transition between layers.
+- Higher metal layers are **wider** for power and clock signals, while lower layers are **denser** for local connections.
+
+### **Panel Representation**
+- **Dashed lines** represent **routing panels**.
+- Each panel contains a **set of tracks** for intra-layer routing.
+- Routing progresses **panel by panel**, optimizing for **design rule compliance (DRC)** and **timing constraints**.
+![image](https://github.com/user-attachments/assets/65a22aaa-13c6-4fe6-a06f-8bf199f74423)
+
+---
+
+### SKY_L3 - TritonRoute Handling Connectivity
+
+### **TritonRoute Overview**
+TritonRoute is an **open-source detailed router** used in OpenROAD to ensure correct connectivity and design rule compliance (DRC) in physical design.
+
+### **Handling Connectivity in TritonRoute**
+1. **Input Preparation**
+   - Takes **global routing guides** from FastRoute.
+   - Reads **DEF, LEF, and design constraints**.
+   - Ensures correct **netlist connectivity** before detailed routing.
+   ![image](https://github.com/user-attachments/assets/a38ca915-9e3e-44d3-b107-f61debb5d717)
+---
+
+## SKY_L4 - Routing Topology Algorithm
+
+### **Routing Topology Overview**
+
+![image](https://github.com/user-attachments/assets/928eeaa8-1132-4d27-9f59-89f6946adb06)
+
+Routing topology defines how wires connect different components in a chip while optimizing performance, area, and power. 
+![image](https://github.com/user-attachments/assets/91e55fae-1f30-47ce-aec8-8f42ab8b3bc4)
+
+![image](https://github.com/user-attachments/assets/8e7ef354-01f0-4fb5-8b9e-4ce048716ddb)
+
+for me it took 0h31m41s
+```
+  magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read final-routed.def &
+```
+
+![image](https://github.com/user-attachments/assets/5651457c-b7b4-4f5a-8de6-3db5d493e31f)
+with no DRC errors
+
+![image](https://github.com/user-attachments/assets/70678216-035f-424d-aa7f-93a179811691)
+
+
+![image](https://github.com/user-attachments/assets/cda5bfbf-9939-4ef4-ae1b-65ec53098e80)
+---
 
