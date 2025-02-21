@@ -4,7 +4,7 @@
 
 # Digital VLSI SoC Design and Planning 15 Days Learning Journey
 
-This repository documents my learnings from the **Digital VLSI SoC Design and Planning** course by **VLSI System Design (VSD)**. Over 15 days, I hve explored key concepts, methodologies, and tools used in SoC design, documenting my progress and insights here.
+This repository documents my learnings from the **Digital VLSI SoC Design and Planning** course by **VLSI System Design (VSD)**. Over 15 days, I have explored key concepts, methodologies, and tools used in SoC design, documenting my progress and insights here.
 
 ## *Course Details*
 - **Program:** NASSCOM-VSD Digital VLSI SoC Design and Planning  
@@ -2005,7 +2005,7 @@ This lab focuses on using **Magic VLSI Layout Tool** to understand **Design Rule
 - **Magic Tool Reference:**  
   [Magic VLSI Tool Documentation](http://opencircuitdesign.com/magic/)  
 - **SkyWater 130nm DRC Rules:**  
-  [SkyWater PDK DRC Rules](https://skywater-pdk--136.org.readthedocs.build/en/136/)  
+  [SkyWater PDK DRC Rules](https://skywater-pdk.readthedocs.io/en/main/)  
 
 ### 4. Magic Commands for DRC  
 - **Run DRC Check:**  
@@ -3360,3 +3360,12 @@ with no DRC errors
 ![image](https://github.com/user-attachments/assets/cda5bfbf-9939-4ef4-ae1b-65ec53098e80)
 ---
 
+## Acknowledgments
+- [Kunal Ghosh](https://www.linkedin.com/in/kunal-ghosh-vlsisystemdesign-com-28084836/), Co-founder, VSD Corp. Pvt. Ltd.  
+- [Nickson P Jose](https://www.linkedin.com/in/nickson-jose/), Technical Lead, HCLTech.  
+- [R. Timothy Edwards](https://www.linkedin.com/in/tim-edwards-4376a18/), Senior Vice President of Analog and Design, efabless Corporation.  
+
+## References
+- [OpenLane](https://github.com/The-OpenROAD-Project)  
+- [SkyWater PDK Documentation](https://skywater-pdk.readthedocs.io/)  
+- [Open Circuit Design](https://opencircuitdesign.com/)  
