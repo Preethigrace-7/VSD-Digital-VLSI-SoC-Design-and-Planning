@@ -1990,5 +1990,83 @@ Add the following `.include` statements to ensure correct device models are used
 
 ---
 
+### SK3_D3 - Lab: Introduction to Magic Tool Options and DRC Rules  
+
+### 1. Overview  
+This lab focuses on using **Magic VLSI Layout Tool** to understand **Design Rule Checking (DRC)** and fixing errors based on **SkyWater 130nm PDK**.  
+
+### 2. Topics Covered  
+- **Magic DRC Commands**  
+- **Google/SkyWater DRC Rules**  
+- **Fixing a Sample DRC Error**  
+- **Magic Technology File Definition**  
+
+### 3. Useful Documentation  
+- **Magic Tool Reference:**  
+  [Magic VLSI Tool Documentation](http://opencircuitdesign.com/magic/)  
+- **SkyWater 130nm DRC Rules:**  
+  [SkyWater PDK DRC Rules](https://skywater-pdk--136.org.readthedocs.build/en/136/)  
+
+### 4. Magic Commands for DRC  
+- **Run DRC Check:**  
+  ```sh
+  drc check
+  ```
+- **Highlight DRC Errors:**  
+  ```sh
+  drc why
+  ```
+- **Fixing DRC Errors:**  
+  - Identify the error location  
+  - Modify the layout to meet spacing/size rules  
+  - Rerun `drc check` to verify the fix  
+
+---
+
+
+### SKY_L4 - Lab: Introduction to Sky130 PDKs and Steps to Download Labs
+
+### 1. Overview  
+This lab covers the **SkyWater 130nm PDK (Process Design Kit)** and the necessary steps to **download and set up the DRC test labs**.
+
+### 2. Lab Content URL  
+The required lab files can be downloaded from:  
+[DRC Test Labs](http://opencircuitdesign.com/open_pdks/archiev/drc_tests.tgz)  
+
+### 3. Steps to Download and Extract Labs  
+Use the following **commands** to download and extract the lab files:  
+
+```sh
+# Step 1: Download the DRC test labs
+wget http://opencircuitdesign.com/open_pdks/archiev/drc_tests.tgz
+```
+# Step 2: Extract the downloaded file
+```
+tar xfz drc_tests.tgz
+```
+# Step 3: Navigate into the extracted directory
+```
+cd drc
+cd drc_tests
+```
+# Step 4: List all files to verify extraction
+```
+ls -al
+```
+# Step 5: Print the current working directory
+```
+pwd
+```
+# Step 6: Open .magicrc file for configuration
+```
+vi .magicrc
+```
+![image](https://github.com/user-attachments/assets/8d258b44-9069-429c-a4bd-98b8d345603a)
+
+# Step 7: Launch Magic in XR mode
+```magic -d XR```
+![image](https://github.com/user-attachments/assets/1464ed6b-f297-4796-aaa3-dcc6f066e698)
+
+---
 
 
