@@ -3066,4 +3066,100 @@ write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/des
 - To balance performance and area, reinsert `clk_buf1`.
 ---
 
+## D5 - Routing
 
+### SKY130_D5_SK1 - Routing Algorithms
+
+### SK1_L1 - Routing and DRC Stage
+
+We need to connect the wires `din1` and `ff1`.
+
+### 1. Maze Routing - Lee's Algorithm [Lee 1961]
+
+- Uses minimal zig-zag, L-shape, or similar path patterns.
+- The algorithm first creates a **grid-based representation** of the routing area.
+- Defines **source** and **target** points on the grid.
+- Each grid cell has **four adjacent neighbors** (left, right, top, bottom).
+- The process follows these steps:
+![image](https://github.com/user-attachments/assets/97191966-68bf-469c-ba3a-9ea0575ac96f)
+
+  1. Mark the **source** grid as `1`.
+  2. Expand outward to **adjacent grids**, labeling them incrementally (`2`, `3`, `4`…).
+  ![image](https://github.com/user-attachments/assets/5f9d1d96-2293-4275-bfd9-3e4023580ce6)
+
+  4. Continue labeling until the **target** grid is reached.
+  5. Once the target is found, **backtrack** along the smallest numbered path to create an **optimal connection**.
+
+- This method ensures:
+  - **Guaranteed routing completion** (if a path exists).
+  - **Shortest path in terms of grid steps**.
+  - **No overlaps or violations** in a simple routing scenario.
+
+---
+
+### SKY5_L2 - Maze Algorithm
+
+- We **cannot** use pre-placed cells for routing.
+  ![image](https://github.com/user-attachments/assets/12af6b93-5b2e-4537-8c05-9f03cd0354e9)
+  ![image](https://github.com/user-attachments/assets/60ffeff0-4813-4476-a544-58e60ec0823b)
+
+
+- After reaching a certain point in the grid, there are **multiple possible paths** to the target.
+
+### Optimizing the Route
+- Instead of blindly choosing a path, we **evaluate different routing options**.
+- **Bend Minimization**:  
+  - A **single-bend route** is generally preferred as it reduces signal integrity issues.
+  - **Less bending → Less delay & better manufacturability**.
+![image](https://github.com/user-attachments/assets/10eb2b74-b6b5-4793-894e-bf190e601287)
+![image](https://github.com/user-attachments/assets/11bc4928-8017-47c1-bcd9-7be2802cd19a)
+
+  - Routed paths are **highlighted in green**.
+    ![image](https://github.com/user-attachments/assets/59d2e39e-2ae4-4695-aba7-79f5b89ccbf9)
+
+  - Ensures proper connectivity without **violating design rules**.
+---
+
+### SKY_L3 - DRC Check
+
+### Design Rule Checks (DRC)
+When routing two wires, **minimum spacing and width constraints** must be followed to avoid **DRC violations**.
+
+### Key Parameters:
+1. **Wire Width**  
+   - The wire width should meet the minimum **manufacturing constraints**.
+   - Built using **optical lithography**, which is dependent on **wavelength limitations**.
+   - After lithography, the width can be **larger**, but **never smaller** than the defined limit.
+![image](https://github.com/user-attachments/assets/c4b1c10a-942c-4f71-b144-7e12f6f76a92)
+
+2. **Wire Pitch**  
+   - The **center-to-center distance** between two adjacent wires.
+![image](https://github.com/user-attachments/assets/7f97ff33-a58b-4862-b14d-4ada93445305)
+
+3. **Wire Spacing**  
+   - The **minimum allowable distance** between two wires to avoid short circuits.
+![image](https://github.com/user-attachments/assets/998f0924-f594-452f-86bd-854067b57bf6)
+
+### DRC Violation Type: **Signal Short**
+- Can cause **functionality failures**.
+  ![image](https://github.com/user-attachments/assets/fe1e6927-7006-404e-aa1d-ec24630ae08c)
+
+- **Solution:**  
+  - **Route signals on different metal layers** to reduce congestion.
+  - **Higher metal layers** are generally **wider** than lower ones.
+![image](https://github.com/user-attachments/assets/ce42cdf1-210f-4bfc-8921-b0cb2c22dbec)
+
+### Via Constraints:
+1. **Via Width**  
+   - When switching between layers, via dimensions must comply with DRC rules.
+   ![image](https://github.com/user-attachments/assets/754e18be-fcf3-4225-aa19-f7420f6ca871)
+
+2. **Via Spacing**  
+   - Minimum distance between adjacent vias to prevent **electrical and reliability issues**.
+![image](https://github.com/user-attachments/assets/4bf20e17-3902-44be-9f9b-f213ff0337a7)
+
+### Next Step: **Parasitic Extraction**
+- After resolving DRC violations, parasitic elements (capacitance, resistance) are extracted for **timing and signal integrity analysis**.
+  ![image](https://github.com/user-attachments/assets/f6d36d07-178f-4647-ac52-dbf2a8b26cd5)
+
+---
