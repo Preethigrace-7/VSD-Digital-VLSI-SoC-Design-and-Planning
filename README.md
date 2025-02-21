@@ -2994,7 +2994,7 @@ write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/des
 
 2. **Set the DEF file to placement DEF:**
    ```sh
-   set ::env(CURRENT_DEF) /openLANE_flow/designs/picorv32a/runs/24-03_10-03/results/placement/picorv32a.placement.def
+   set ::env(CURRENT_DEF) /openLANE_flow/designs/picorv32a/runs/12-02_06-52/results/placement/picorv32a.placement.def
    ```
 
 3. **Run CTS again:**
