@@ -2273,4 +2273,797 @@ after the cmd
 
 ---
 
+### SKY_L2 - Lab Steps to Convert Magic Layout to Standard Cell LEF  
+
+### 1. Standard Cell Dimension Requirements  
+- **Width** should be in **odd multiples of the metal pitch (zx pitch)**.  
+- **Height** should also follow the same rule.
+
+### 2. Navigating to the Standard Cell Design Folder  
+```sh
+cd vsdstdcelldesign
+```
+- This folder contains the **custom standard cell layouts**.
+
+### 3. Opening and Saving Layout in Magic  
+Launch Magic and open the **inverter layout**:  
+```sh
+magic -T sky130A.tech sky130_vsdinv.mag
+```
+Save the updated `.mag` file:  
+```sh
+save sky130_vsdinv.mag
+```
+- **Ensures the latest changes are stored**.
+
+### 4. Writing the LEF File  
+Run the following command in Magic to generate the **LEF (Library Exchange Format) file**:  
+```sh
+lef write
+```
+![image](https://github.com/user-attachments/assets/2eb93679-3f14-4de8-8970-85aae17c337b)
+
+- This command **extracts** the standard cell information needed for PnR tools.
+
+### 5. Verifying the LEF File  
+Check the generated **LEF file**:  
+```sh
+less sky130_vsdinv.lef
+```
+- **Ensures the file contains correct standard cell dimensions and pin placements**.
+
+### 6. Integrating LEF into PicoRV32a  
+- Before using the **LEF file** in **PicoRV32a**, move the **design files** into the `src` folder:  
+```sh
+mv sky130_vsdinv.lef /path/to/picorv32a/src/
+```
+- The **LEF file** is now ready for integration into the **PicoRV32a RISC-V core**.
+
+---
+
+### SKY_L3 - Introduction to Timing Libraries & Steps to Include a New Cell in Synthesis  
+
+### 1. Timing Libraries Overview  
+For **PVT (Process-Voltage-Temperature) variation**, we need three **timing libraries**:
+- **Typical Corner:** `sky130_fd_sc_hd__typical.lib`
+- **Fast Corner:** `sky130_fd_sc_hd__fast.lib`
+- **Slow Corner:** `sky130_fd_sc_hd__slow.lib`
+These vary with slew and temperature parameters
+
+### 2. Copy Libraries into PicoRV32a  
+Move the **timing libraries** into the **src folder** of `picorv32a`:  
+```sh
+cp sky130_fd_sc_hd__typical.lib sky130_fd_sc_hd__fast.lib sky130_fd_sc_hd__slow.lib /path/to/picorv32a/src/
+```
+This ensures OpenLane can access the required **liberty (.lib) files** during synthesis.
+
+### 3. Modify the Configuration File  
+Update the **config.tcl** in `picorv32a`:
+```tcl
+set ::env(LIB_SYNTH) "sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_FASTEST) "sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_SLOWEST) "sky130_fd_sc_hd__slow.lib"
+```
+![image](https://github.com/user-attachments/assets/2e8d78b7-2164-4bff-bfc1-b69edbe3b085)
+
+- This **includes** the custom standard cell in synthesis.
+
+### 4. Running OpenLane for Synthesis  
+### **Start OpenLane Docker**  
+```sh
+./flow.tcl -interactive
+```
+### **Load OpenLane Package**  
+```tcl
+package require openlane 0.9
+```
+### **Prepare the Design for Synthesis**  
+```tcl
+prep -design picorv32a -tag 12-02_06-52 -overwrite
+```
+![image](https://github.com/user-attachments/assets/64931c99-6e70-4fef-a4e5-f8093296dbbf)
+
+- `-tag 12`: Identifies the run instance.  
+- `-overwrite`: **Erases previous runs** to start fresh.
+
+### **Run Synthesis**  
+```tcl
+run_synthesis
+```
+![image](https://github.com/user-attachments/assets/01b2dfd0-fbe5-4a05-b68d-99c92e2234e1)
+
+---
+
+### SKY_L4 - Introduction to Delay Tables & Power-Aware CTS  
+
+### *1. Basics of Delay Tables*
+Delay tables help model the delay of a gate based on:  
+- **Input transition time**  
+- **Output load capacitance**  
+
+### **Example - Clock Gating in AND/OR Gates**
+- **AND Gate:** If **enable = 1**, output follows input.  
+- **OR Gate:** If **enable = 0**, output follows input.  
+![image](https://github.com/user-attachments/assets/a5d5d11f-1a29-4430-bcd2-96cf3612ae4b)
+
+### *2. Clock Tree & Buffering Observations*
+Consider a **Clock Tree** with **buffered stages**:  
+| Buffer | Node | Capacitance (fF) |
+|--------|------|------------------|
+| Buffer 1 | A | 60 fF |
+| Buffer 2 | B | 50 fF |
+| Buffer 3 | C | 50 fF |
+![image](https://github.com/user-attachments/assets/f98ddd28-d114-40f4-882b-ed3a38388e31)
+
+### **Key Observations:**
+- Each node drives the **same load**.  
+- Identical buffers exist at the **same level**.  
+- **Load variation affects input transition**, impacting delay.  
+
+### *3. Capturing Delay Tables*
+- **Vary Input Transition Time**  
+- **Vary Output Load Capacitance**  
+- Measure **Delay for each condition**  
+- Generate **lookup delay tables**    
+
+---
+
+### SKY_L5 - Delay Table Using Part 1  
+
+### *1. Understanding Delay Tables*
+Delay tables help in estimating gate delays based on:  
+- **Input transition time (ps)**  
+- **Output load capacitance (fF)**  
+
+### *2. Example: Delay Calculation for Buffers*
+We analyze two buffers **CBUF1** and **CBUF2**.  
+![image](https://github.com/user-attachments/assets/1b15c987-a226-4c7f-b694-bfed21296f79)
+
+### Given Conditions:  
+- **Input Transition Time** = 40 ps  
+- **Output Load Capacitance** = 50 fF to 70 fF  
+![image](https://github.com/user-attachments/assets/ddeee369-77dd-4b49-8be8-4d14980f73ef)
+
+- The delay value falls **between the interpolated values** in the provided figure.  
+- This helps determine the actual delay during STA (Static Timing Analysis).  
+- Provides accurate **timing estimates** before physical implementation.  
+
+---
+### SKY_L6 - Delay Table Using Part 2  
+
+### 1. Understanding Buffer Delays  
+We analyze the delay propagation between buffers **BUF1** and **BUF2** using delay tables.  
+
+### 2. Given Conditions for BUF2:  
+- **Transition Time** = 60 ps  
+- **Output Load Capacitance** = 50 fF  
+![image](https://github.com/user-attachments/assets/926a17b6-b62e-4e7e-ae36-492dcf512fed)
+ 
+- Let **x9** be the delay for buf 1.
+- **y15** be the delay for buf 2.  
+- Using delay tables, we extract the delay value corresponding to the given input transition and output load.  
+- Next, we compute **delay from BUF1 to BUF2** based on these values.  
+
+### 3. Key Observations  
+- Delay depends on **input transition and load capacitance**.  
+- Accurate delay calculation helps in **timing closure and clock tree optimization**.  
+- This step ensures correct **buffer insertion and CTS refinement** for low-skew clock distribution.  
+
+---
+
+### **SKY_L7-Lab Steps to Configure Synthesis Settings and Reduce Delay**
+1. **Modify Synthesis Strategy**
+   - Set the synthesis strategy to **1**:
+     ```
+     set ::env(SYNTH_STRATEGY) 1
+     ```
+   - Verify if synthesis buffering is enabled:
+     ```
+     echo $::env(SYNTH_BUFFERING)
+     ```
+   - Enable synthesis sizing:
+     ```
+     set ::env(SYNTH_SIZING) 1
+     ```
+   - Check the default **synth_driving_cell**:
+     ```
+     echo $::env(SYNTH_DRIVING_CELL)
+     ```
+
+2. **Run Synthesis**
+   ```
+   run_synthesis
+   ```
+
+3. **Run Floorplan**
+   ```
+   run_floorplan
+   ```
+![image](https://github.com/user-attachments/assets/3f9cec47-3984-44bd-827b-9af8ff7addba)
+
+4. **Handling Errors During Floorplan**
+   If you encounter errors, try running the following commands step by step:
+   ```
+   init_floorplan
+   place_io
+   tap_decap_or
+   ```
+   ![image](https://github.com/user-attachments/assets/c616eaff-fa62-4cf1-ae8e-27ac09c7e218)
+   ![image](https://github.com/user-attachments/assets/ed7393e1-d0b8-45a3-8cc2-b710867b7c7a)
+   ![image](https://github.com/user-attachments/assets/d6e07600-2e6c-4f63-ac12-83586a9e4127)
+   
+
+6. **Verify Merged LEF File**
+   - Navigate to the `runs/current/` directory:
+     ```
+     cd runs/12-02_06-52/merged.lef
+     ```
+   - Open `merged.lef` to check if the custom design (including `vsd_inv`) is included.
+     ```
+     run_placement
+     ```
+    ![image](https://github.com/user-attachments/assets/f0c2dacb-e4e4-491a-aeed-2ff41c81bb7a)
+
+7. **Legality Check & Verification**
+   ![image](https://github.com/user-attachments/assets/3bfdd52c-5e9b-4a02-9775-86e629c563a2)
+
+   - Open the **LEF** and **DEF** files in **Magic** (after placement):
+     ```
+     magic -T sky130A.tech lef read merged.lef def read picorv32a.placement.def
+     ```
+   - Check if `sky130vsd_inv` is present and verify placement.
+
+---
+
+### **SKY130_D4_SK2-Timing Analysis with Ideal Clocks using OpenSTA**  
+
+### **SKY_L1-Setup Timing Analysis & Flip-Flop Setup Time**  
+- In **Static Timing Analysis (STA)**, the setup time is the minimum time before the clock edge that data must be stable at the input of a **D Flip-Flop (DFF)**.
+  ![image](https://github.com/user-attachments/assets/bce28873-04f1-4079-88a1-ba436d63e510)
+
+- If the clock period is **T**, the **combinational delay** must satisfy:
+  Combinational delay < Time period(T)
+  As the capture flop needs some time to capture the input from the launch flop that is the setup time of the capture flop that instance
+  \[
+  \text{Combinational Delay} < T - \text{Setup Time of Capture Flop}
+  \]
+  ![image](https://github.com/user-attachments/assets/692d732b-11d3-4394-8a66-83cf0fe6cfde)
+
+- The **internal delay of MUX1** is equivalent to the **setup time of the capture flip-flop**.  
+---
+
+### SKY_L2 - Introduction to Clock Jitter and Uncertainty  
+
+### Clock Jitter  
+- The clock is expected to transition at fixed intervals, starting from time **t = 0**.  
+- However, due to connections with other source clocks and wires, the actual clock signal **does not always arrive exactly at the expected edge**.  
+- The next clock edge also experiences similar variations.  
+- These **temporary variations in the clock period** are called **jitter**.  
+
+### Clock Uncertainty  
+- **Clock uncertainty** refers to the difference between the **expected clock arrival time** and the **actual arrival time**.  
+- It is influenced by jitter, clock skew, and variations in routing delays.  
+- A more stable clock has **lower uncertainty**.  
+
+### Impact on Timing  
+- Previously, the condition for setup timing was:  
+  ```
+  Combinational Delay < Clock Period - Setup Time
+  ```
+- Now, considering **clock uncertainty due to jitter**:  
+  ```
+  Combinational Delay < Clock Period - Setup Time - Clock Uncertainty
+  ```
+  ![image](https://github.com/user-attachments/assets/f3abce8d-d4eb-41db-8903-d7374416b663)
+
+- This means **less available time for data propagation**, making timing closure more challenging.  
+
+Let's check our **core design** for timing violations due to jitter and uncertainty.  
+![image](https://github.com/user-attachments/assets/6b25e888-f054-4be3-b699-64d106baffed)
+![image](https://github.com/user-attachments/assets/f04f6ada-ddfe-457f-89e0-618ef263c7c3)
+
+---
+
+### SKY_L3-lab steps to configure OpenSTA for post-synth timing analysis
+
+We have to do timing analysis in OpenSTA.
+
+### Steps:
+
+1. **Navigate to the OpenLane folder:**
+   ```sh
+   cd /path/to/openlane
+   ```
+
+2. **Create a file named `pre_sta.conf`:**
+   ```sh
+   touch pre_sta.conf
+   ```
+
+3. **Open the file in a text editor (e.g., `vi`):**
+   ```sh
+   vi pre_sta.conf
+   ```
+
+4. **Before this, create `my_base.sdc` in**  
+   `openlane/designs/picorv32a/src/`  
+   - Take reference from `openlane/scripts/base.sdc`.  
+   - For `cap_load`, check in the `libs` directory.  
+
+5. **Content of `my_base.sdc`** (Refer to the given image for exact details).  
+![image](https://github.com/user-attachments/assets/5cd1c8d2-a3df-4ffc-9459-84383a26a089)
+
+6. **Write the `pre_sta.conf` file** (Refer to the given figure for content).  
+![image](https://github.com/user-attachments/assets/0a0fd878-5d08-41bb-9cb5-9ce03b2ac09f)
+
+7. **Run OpenSTA with the configuration file:**
+   ```sh
+   sta pre_sta.conf
+   ```
+![image](https://github.com/user-attachments/assets/cc47be3d-dff8-4676-a9d0-8f25f4dedbd4)
+
+![image](https://github.com/user-attachments/assets/b1e77fe1-0fbf-48cc-b70c-a58c11444e59)
+
+slack is violated so we need to make changes to make slack met.
+
+---
+
+### SKY_L4-lab steps to optimize synthesis to reduce setup violation
+
+### Steps:
+
+1. **Navigate to the OpenLane :**
+
+2. **Set the maximum fanout value:**
+   ```sh
+   set ::env(SYNTH_MAX_FANOUT) 4
+   ```
+   ![image](https://github.com/user-attachments/assets/619b635b-7b82-4c94-8527-96af449a6ef4)
+
+   - Higher fanout increases slew due to circuit connections.
+   - If buffers are placed side by side, slew propagation worsens.
+![image](https://github.com/user-attachments/assets/a8f776f3-bb9e-4bdf-a479-1793017042a6)
+
+3. **Check net connections (example for `_7899_`):**
+   ```sh
+   report_net connections _7899_
+   ```
+
+4. **Replace a cell with a different size to optimize timing:**
+   ```sh
+   replace_cell _14365_ sky130_fd_sc_hd__buf_1
+   ```
+
+5. **Run timing analysis and check setup violations:**
+   ```sh
+   report_checks -format -digits 4
+   ```
+
+   ![image](https://github.com/user-attachments/assets/414b9c41-4b72-4417-ae69-1d3a649fc2d2)
+   ![image](https://github.com/user-attachments/assets/5945d3ea-fcd8-4858-8488-9c18d38b6ec4)
+
+   ![image](https://github.com/user-attachments/assets/51ce58a1-c228-4590-8a2c-7a67ad68e30f)
+
+   decreased slack but much less
+   so do replace the cells again for other delays
+
+   ![image](https://github.com/user-attachments/assets/3670e7a6-0f46-4fcd-966e-f025e15d4644)
+
+   ![image](https://github.com/user-attachments/assets/cedb1480-1c65-4a0a-9caf-ea7c1178c9f3)
+
+   ![image](https://github.com/user-attachments/assets/3b81bdfe-dbed-4ec8-843f-c49aa25a9a4c)
+
+   ![image](https://github.com/user-attachments/assets/f89c6e94-36f5-43a3-9de6-1385914ab1f3)
+
+
+  ![image](https://github.com/user-attachments/assets/b7409732-ac10-476d-bf65-0290efe282ed)
+
+   ![image](https://github.com/user-attachments/assets/eca07193-c9a0-4b76-91bc-85b6ce557613)
+---
+### SKY_L5-Lab steps to do basic timing ECO
+
+  now after making slack a bit less 
+  ```
+# Change from home directory to synthesis results directory
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/12-02_06-52/results/synthesis/
+
+# List contents of the directory
+ls
+
+# Copy and rename the netlist
+cp picorv32a.synthesis.v picorv32a.synthesis_old.v
+
+# List contents of the directory
+ls
+
+# Check syntax
+help write_verilog
+
+# Overwriting current synthesis netlist
+write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/12-02_06-52/results/synthesis/picorv32a.synthesis.v
+```
+
+---
+
+### SKY130_D4_SK3 - Clock Tree Synthesis TitronCTS and Signal Integrity
+
+### SKY_L1 - Setup timing analysis using real clocks
+
+### Steps:
+
+1. **Connect `clk1` to flip-flops (FFs).**  
+   The time required to reach `FF1` and `FF2` is `t1` and `t2`, respectively (as shown in the image).
+![image](https://github.com/user-attachments/assets/3ab93a01-e2fe-4031-a226-32a8efb1b3f8)
+![image](https://github.com/user-attachments/assets/ae5963a5-c88d-4288-9d3f-9962fe45ad60)
+
+2. **Use an H-tree for clock distribution.**  
+   - Take midpoints of flip-flops so that the clock reaches every FF at the same time.
+![image](https://github.com/user-attachments/assets/829d8b62-ce5c-47d6-8e04-f0ef37a20976)
+
+3. **Clock tree buffering:**  
+   - To maintain signal integrity, add repeaters (buffers).
+   - Without buffers, the clock signal may degrade due to high delay.
+   ![image](https://github.com/user-attachments/assets/8d5fbf98-8c7d-44ef-adac-4aff9fc50e60)
+
+
+4. **Adding repeaters (red buffers):**  
+   - This ensures that the clock signal at the output is relatively the same as the input, maintaining signal quality.
+![image](https://github.com/user-attachments/assets/24739bef-f437-46da-a1d0-1674a43331a1)
+
+---
+
+### SKY_L2 - Crosstalk and Clock Net Shielding
+
+### Clock Net Shielding
+
+- **Clock tree aims for 0 skew.**
+- **Latency**: Time required for the clock signal to reach a flip-flop.
+- **Skew**: Difference in latency between different flip-flops.
+
+### Why Shield Clock Nets?
+
+- **Crosstalk can collapse the entire clock design.**
+- To prevent this, we shield clock nets/wires.
+
+### Two Problems Caused by Crosstalk:
+
+1. **Glitch:**  
+   - Unintended switching due to noise from adjacent signals (refer to the image).  
+   - Solution: Add shielding by connecting one shield to `VDD` and another to `GND`, ensuring they do not switch.
+![image](https://github.com/user-attachments/assets/f0f702ce-383a-45b1-801e-4096faf7eef4)
+
+![image](https://github.com/user-attachments/assets/e342a033-f2de-49d7-b819-66f9831a7297)
+
+
+2. **Delta Delay:**  
+   - Crosstalk introduces **delta delay**, causing unintended timing shifts.  
+   - This can affect logic transitions (e.g., `1 → 0`) due to delay accumulation.  
+   - As a result, clock skew may not remain zero and could be affected by delta delay (refer to the figure).
+![image](https://github.com/user-attachments/assets/409e5f0d-8e7d-40c2-b67e-fc4476f34c2f)
+
+### Practical Considerations:
+
+- Ideally, only **critical nets** are shielded.
+- Shielding all clock nets is **not feasible** as it would cause congestion in routing the design.
+![image](https://github.com/user-attachments/assets/d1d347cc-3776-4adf-b48c-f824bb62c80d)
+
+---
+
+### SKY_L3 - Lab Steps to Run CTS Using TritonCTS
+
+### Steps:
+
+1. **Modify the slack value as needed.**  
+2. **Re-run synthesis:**
+   ```sh
+   run_synthesis
+   ```
+   ![image](https://github.com/user-attachments/assets/cded471d-6a57-4d74-bccb-2320697758d4)
+
+3. **Run floorplanning:**
+   ```sh
+   run_floorplan
+   ```
+   ![image](https://github.com/user-attachments/assets/f8c96ac2-6a61-4973-934c-b6ba54cf0835)
+
+4. **Run Clock Tree Synthesis (CTS):**
+   ```sh
+   run_cts
+   ```
+
+### Output:
+
+- This process generates **`picorv32a.synthesis_cts.v`**,  
+  - This file contains clock buffers added during CTS.
+  ---
+  
+### SKY_L4 - Lab Steps to Verify CTS Runs
+
+### Steps:
+
+1. **Navigate to OpenROAD in OpenLane:**  
+   ```sh
+   cd openlane/scripts/openroad
+   ```
+   - OpenROAD tool is available here.
+
+2. **Verify the following design stages in OpenROAD:**
+   - **Floorplan**
+   - **Placement**
+   - **Clock Tree Synthesis (CTS)**
+   - **Optimization**
+   - **Global Routing**
+![image](https://github.com/user-attachments/assets/140424c5-58ac-4460-9589-85b57b990522)
+
+3. **Run the following command to generate the Power Delivery Network (PDN):**
+   ```sh
+   gen_pdn
+   ```
+![image](https://github.com/user-attachments/assets/86f05571-c979-40da-9320-18bbbf9b0576)
+![image](https://github.com/user-attachments/assets/abc4b3f0-17a1-401f-8de2-b48ac1826140)
+
+---
+
+### SKY130_D4_SK4- Timing analysis with real clocks using openSTA
+### SKY_L1 - Timing Analysis with Real Clock
+
+### Setup Timing Analysis:
+
+- In a real clock, **buffers are added** to maintain signal integrity.
+- The **combinational delay** must be **less than** (time period + buffer delay).
+![image](https://github.com/user-attachments/assets/7ab88a2f-4312-41e2-97a7-81a33323ee8b)
+
+### Key Parameters:
+- **Δ1**: Time required for the clock to reach the **launch flip-flop**.
+- **Δ2**: Time required for the clock to reach the **capture flip-flop**.
+![image](https://github.com/user-attachments/assets/0fe956ae-d64f-4ba9-84f5-a00338dbfe90)
+
+### Setup Timing Equation:
+\[
+|Δ1 - Δ2| = \text{Skew}
+\]
+- **Jitter** is also considered.
+- **Slack** is calculated as:
+  \[
+  \text{Slack} = \text{Data Arrival Time} - \text{Data Required Time}
+  \]
+- **Slack should be 0 or positive** for a valid design.
+![image](https://github.com/user-attachments/assets/b249d606-abd5-40ff-8fc2-8cbe85bc2bb0)
+![image](https://github.com/user-attachments/assets/e6124c1e-f0ab-4e81-8fe4-d76239188e96)
+
+---
+
+## Hold Timing Analysis:
+
+- The **combinational delay** must be **greater than** the hold time of the capture flip-flop.
+
+### Hold Timing Considerations:
+- The capture flop sends data out with **MUX2 delay**, which equals the hold time of the flop.
+- It will not receive new data during the **hold time**.
+- Therefore, the data must **arrive after** the hold time.
+![image](https://github.com/user-attachments/assets/f7105aa2-baeb-4988-995e-60d760828c6e)
+
+### Hold Timing Equation:
+\[
+\text{Combinational Delay} + Δ1 > \text{Hold Time} + Δ2
+\]
+
+---
+
+### SKY_L2 - Timing Analysis with Real Clock and Single Clock
+
+### Considerations:
+
+- **Uncertainty** is added to the **data required time** for more accurate analysis.
+- With a **single clock**, we must consider:
+  - **Real wire RC delay**
+  - **Buffer delays**
+![image](https://github.com/user-attachments/assets/f9c7a690-79f5-493b-a182-59a28bb9a58e)
+
+### Key Parameters:
+- **Δ1**: Time required for the clock to reach the **launch flip-flop** (includes RC + buffer delays).
+- **Δ2**: Time required for the clock to reach the **capture flip-flop** (same RC delay applies).
+![image](https://github.com/user-attachments/assets/16e8d5f6-2f48-4b7c-bfe4-c81e4447dfa0)
+![image](https://github.com/user-attachments/assets/39de8842-2c19-445b-95e0-25386250a65c)
+
+### Skew Calculation:
+
+![image](https://github.com/user-attachments/assets/46fd8d15-1931-4a20-8844-76d7733f71cc)
+
+
+### Setup Timing Equation:
+
+![image](https://github.com/user-attachments/assets/bf13d3f8-7c97-4310-b2a0-1cfed8e164ba)
+
+
+### Hold Timing Equation:
+
+![image](https://github.com/user-attachments/assets/dd678f0b-726d-4102-9aa2-49c66e5c3a2f)
+
+---
+
+### SKY_L3 - Lab Steps to Analyze Timing with Real Clocks Using OpenSTA
+
+### Steps:
+
+1. **Open OpenROAD:**
+   ```sh
+   openroad
+   ```
+
+2. **Read the LEF file:**
+   ```sh
+   read_lef /openLANE_flow/designs/picorv32a/runs/12-02_06-52/tmp/merged.lef
+   ```
+
+3. **Read the DEF file (post-CTS):**
+   ```sh
+   read_def /openLANE_flow/designs/picorv32a/runs/12-02_06-52/results/cts/picorv32a.cts.def
+   ```
+
+4. **Create and load an OpenROAD database:**
+   ```sh
+   write_db pico_cts.db
+   read_db pico_cts.db
+   ```
+
+5. **Read the post-CTS netlist:**
+   ```sh
+   read_verilog /openLANE_flow/designs/picorv32a/runs/12-02_06-52/results/synthesis/picorv32a.synthesis_cts.v
+   ```
+
+6. **Read the design library:**
+   ```sh
+   read_liberty $::env(LIB_SYNTH_COMPLETE)
+   ```
+![image](https://github.com/user-attachments/assets/9ba4e094-2bed-4fc3-8ae9-db49e9146f12)
+
+7. **Link the design and library:**
+   ```sh
+   link_design picorv32a
+   ```
+
+8. **Read the custom SDC file:**
+   ```sh
+   read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+   ```
+
+9. **Set propagated clocks:**
+   ```sh
+   set_propagated_clock [all_clocks]
+   ```
+
+10. **Generate a custom timing report:**
+    ```sh
+    report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+    ```
+![image](https://github.com/user-attachments/assets/6e542555-7d73-47a0-be5f-84b2c467dc13)
+
+11. **Report hold skew:**
+    ```sh
+    report_clock_skew -hold
+    ```
+
+12. **Report setup skew:**
+    ```sh
+    report_clock_skew -setup
+    ```
+![image](https://github.com/user-attachments/assets/1b73f9f4-72e8-4808-a45e-aa35e2103458)
+
+13. **Exit OpenROAD:**
+    ```sh
+    exit
+    ```
+---
+### SKY_L4 - Lab Steps to Execute OpenSTA with Right Timing Libraries and CTS Assignment
+
+### Steps:
+
+1. **Check the current value of `CTS_CLK_BUFFER_LIST`:**
+   ```sh
+   echo $::env(CTS_CLK_BUFFER_LIST)
+   ```
+
+2. **Set and replace CTS clock buffer list:**
+   ```sh
+   set ::env(CTS_CLK_BUFFER_LIST) [linsert $::env(CTS_CLK_BUFFER_LIST) 0 sky130_fd_sc_hd__clkbuf_1]
+   ```
+
+3. **Verify the updated `CTS_CLK_BUFFER_LIST`:**
+   ```sh
+   echo $::env(CTS_CLK_BUFFER_LIST)
+   ```
+
+4. **Navigate to the directory containing the generated PDN DEF file:**
+   ```sh
+   cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/12-02_06-52/tmp/floorplan/
+   ```
+   ![image](https://github.com/user-attachments/assets/c49a806e-e906-41f9-9f26-ca8c7fc43525)
+
+---
+### SKY_L5 - Lab Steps to Observe Impact of Bigger CTS Buffers on Setup and Hold
+
+### Steps:
+
+1. **Check the current value of `CURRENT_DEF`:**
+   ```sh
+   echo $::env(CURRENT_DEF)
+   ```
+   ![image](https://github.com/user-attachments/assets/02785758-05aa-4fef-bdbd-4f6240b417c6)
+
+
+2. **Set the DEF file to placement DEF:**
+   ```sh
+   set ::env(CURRENT_DEF) /openLANE_flow/designs/picorv32a/runs/24-03_10-03/results/placement/picorv32a.placement.def
+   ```
+
+3. **Run CTS again:**
+   ```sh
+   run_cts
+   ```
+
+4. **Check and verify `CTS_CLK_BUFFER_LIST`:**
+   ```sh
+   echo $::env(CTS_CLK_BUFFER_LIST)
+   ```
+
+5. **Run CTS again to observe the impact:**
+   ```sh
+   run_cts
+   ```
+
+6. **Launch OpenROAD:**
+   ```sh
+   openroad
+   ```
+
+7. **Read required files into OpenROAD:**
+   ```sh
+   # Read LEF file
+   read_lef /openLANE_flow/designs/picorv32a/runs/12-02_06-52/tmp/merged.lef
+
+   # Read DEF file post CTS
+   read_def /openLANE_flow/designs/picorv32a/runs/12-02_06-52/results/cts/picorv32a.cts.def
+
+   # Create and load OpenROAD database
+   write_db pico_cts1.db
+   read_db pico_cts1.db
+
+   # Read netlist post CTS
+   read_verilog /openLANE_flow/designs/picorv32a/runs/12-02_06-52/results/synthesis/picorv32a.synthesis_cts.v
+
+   # Read library for design
+   read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+   # Link design and library
+   link_design picorv32a
+
+   # Read custom SDC file
+   read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+   # Set propagated clocks
+   set_propagated_clock [all_clocks]
+   ```
+
+8. **Generate timing reports:**
+   ```sh
+   # Report timing with detailed fields
+   report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+   # Report hold skew
+   report_clock_skew -hold
+
+   # Report setup skew
+   report_clock_skew -setup
+   ```
+
+9. **Exit OpenROAD:**
+   ```sh
+   exit
+   ```
+
+- After changing `clk_buf1` to `clk_buf2`, the slack improved, but area consumption increased.
+- To balance performance and area, reinsert `clk_buf1`.
+---
+
 
