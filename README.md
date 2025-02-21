@@ -1616,3 +1616,379 @@ Active regions are where PMOS and NMOS transistors are formed.
 ![image](https://github.com/user-attachments/assets/f0d6ff85-1892-406f-bfe1-b96e968f3ea7)
 
 - These steps ensure that the transistors are electrically isolated before further processing.
+
+---
+
+### SKY_L2 - Formation of N-Well and P-Well
+
+Both wells cannot be formed at the same time. The process involves multiple steps using different masks and ion implantation energies. This process can be related to the layout mask.
+![image](https://github.com/user-attachments/assets/59c29b78-cac2-4421-a9c1-cfa84e91f15a)
+
+
+### *3. N-Well and P-Well Formation*
+
+1. **P-Well Formation**  
+   - Apply photoresist and mask.
+     
+ ![image](https://github.com/user-attachments/assets/f20a6a2e-6863-44ce-a10d-1b6bb5df4e9e)
+
+   - Remove the mask and perform ion implantation with **Boron (~200 keV)** to create the **P-Well**.
+     
+   ![image](https://github.com/user-attachments/assets/11d59600-5d7f-4b23-aea7-92526c806334)
+
+
+2. **N-Well Formation**  
+   - Apply a photoresist layer over the P-Well to protect it.
+     
+   ![image](https://github.com/user-attachments/assets/3018a3ff-578e-4f0d-87cf-be88941d26e6)
+
+   - Add a mask and then remove it.  
+   - Perform ion implantation with **Phosphorus (~400 keV)**
+     
+   ![image](https://github.com/user-attachments/assets/a3e1f38d-2b61-4bf5-bfd2-3216c0ade22c)
+
+   - **Phosphorus requires higher energy than Boron** to create the **N-Well**.  
+   - Remove the photoresist.  
+
+3. **Diffusion Process**  
+   - The wafer is placed in a **drive-in diffusion furnace**.
+     
+   ![image](https://github.com/user-attachments/assets/34a87094-6827-4d28-aff3-803e35709987)
+
+   - The N-Well and P-Well diffuse further into the substrate.  
+   - This is known as the **Twin-Tub Process**.
+     
+   ![image](https://github.com/user-attachments/assets/9adb5208-2b18-499b-bb57-7c2040baf02c)
+
+   ---
+  
+### SKY_L2 - Formation of Gate Terminal
+
+### *4. Formation of Gate*
+The **gate terminal** is the **control** of the entire transistor.
+
+### Steps:  
+1. **N-Well Doping (P-Well Implantation)**  
+   - Use **Mask 4** on the **N-Well** with photoresist under the mask.
+   ![image](https://github.com/user-attachments/assets/77efeb4e-335e-410c-97a6-19236b2eeb17)
+
+   - Perform **Boron implantation (~60 keV)** to set the doping concentration on the **P-Well**.
+    ![image](https://github.com/user-attachments/assets/d9f88a09-60dc-42e6-b5be-da723d73e187)
+
+
+2. **P-Well Doping (N-Well Implantation)**  
+   - Apply **Mask 5** on the **P-Well**.
+   ![image](https://github.com/user-attachments/assets/4b24053f-151b-48bb-8255-de66a469bad7)
+
+   - Perform **Arsenic (N-doping) implantation** into the **N-Well** until the required **threshold voltage** is reached.
+    ![image](https://github.com/user-attachments/assets/a6058fc4-7f16-41d6-9509-8ac3ff1dab9f)
+
+
+3. **Oxide Etching and Re-implantation**  
+   - **Etch the oxide layer** on both wells.  
+   - **Re-implant a new oxide layer** of the same size.  
+
+4. **Polysilicon Deposition**  
+   - Deposit a **0.4 nm polysilicon layer** on the wafer.
+   ![image](https://github.com/user-attachments/assets/1c8b22ae-de10-40d3-abd2-2e2c31b6c569)
+
+   - Apply **Mask 6** to define the **gate regions**.
+   ![image](https://github.com/user-attachments/assets/8e898367-17b3-4316-a295-c9fb28732828)
+![image](https://github.com/user-attachments/assets/c84f43ae-7eb3-49f6-9f10-b7be878b2e37)
+
+
+   - Remove the mask and **etch away unwanted polysilicon**.
+![image](https://github.com/user-attachments/assets/f98db705-38f9-42df-84a2-c61c1315fb4b)
+
+   - Remove the remaining **photoresist**, leaving the **gates** on both **N-Well and P-Well**.
+   ![image](https://github.com/user-attachments/assets/dfefcf60-5e0c-4969-9707-670bb09ffe8a)
+
+
+---
+
+### SKY_L4 - Lightly Doped Drain (LDD) Formation
+
+### 5. Lightly Doped Drain (LDD) Formation  
+
+### *Purpose of LDD:*
+1. **Hot Electron Effect** - Prevents damage due to high-energy electrons.  
+2. **Short Channel Effect** - Reduces unwanted variations in transistor behavior.  
+
+### Steps:  
+1. **N-Type Implantation for P-Well**  
+   - Apply **Mask 7** on the **N-Well**.
+![image](https://github.com/user-attachments/assets/16128ccf-4a11-4d1c-8a91-c9046b6533e5)
+
+   - Perform **Phosphorus implantation** for an **N-type LDD** on the **P-Well**.
+  ![image](https://github.com/user-attachments/assets/4d3088b7-a7d3-4f55-bf50-64af1be9572e)
+
+
+2. **P-Type Implantation for N-Well**  
+   - Apply **Mask 8** on the **P-Well**.
+![image](https://github.com/user-attachments/assets/db72eb52-12b7-4ba8-8af1-dab57840e0a9)
+
+   - Perform **Boron implantation** for a **P-type LDD** on the **N-Well**.
+    ![image](https://github.com/user-attachments/assets/0c784346-762b-4837-a704-1f9346e0138b)
+
+
+3. **Sidewall Spacer Formation**  
+   - Deposit a **thick (~0.1 µm) SiO₂ layer**.
+   ![image](https://github.com/user-attachments/assets/5c8a00f5-c097-4f33-88a1-cd5658087f40)
+
+   - Use **Plasma Anisotropic Etching** to remove unwanted oxide.  
+   - The remaining **sidewall spacers** help control electric fields and reduce leakage.
+   ![image](https://github.com/user-attachments/assets/0d3c9ffd-7225-48da-982a-d059e6d33539)
+  - The screen oxide is to avoid channeling during implants.
+
+---
+
+### SKY_L5 - Source and Drain Formation  
+
+### *6. Source and Drain Formation*
+
+### Steps:  
+
+1. **N+ Source/Drain Formation in P-Well**  
+   - Apply **Mask 9** on the **N-Well**.
+   ![image](https://github.com/user-attachments/assets/015089e1-98c6-4a67-a517-5a095244ed63)
+
+   - Expose to **Arsenic (As) at 75 keV** for the **P-Well**.
+   ![image](https://github.com/user-attachments/assets/c2ac6b1e-5192-43a5-94fd-69b37ce52466)
+  
+   - This helps form the **N+ source and drain regions**, with LDD already in place.  
+
+2. **P+ Source/Drain Formation in N-Well**  
+   - Apply **Mask 10** on the **P-Well**.
+![image](https://github.com/user-attachments/assets/83fe41ca-0572-4eff-bf86-36365ef7b2e6)
+
+   - Expose to **Boron (B) at 50 keV**.
+   ![image](https://github.com/user-attachments/assets/3862c336-edd2-4008-a739-0b3be7bdf4e1)
+
+   - The boron ions enter the open areas and settle down, forming the **P+ source and drain**.  
+
+3. **Annealing Process**  
+   - Expose the wafer to **high temperatures** to allow the dopants to diffuse properly.
+   ![image](https://github.com/user-attachments/assets/68db8d1d-27ba-45ba-a68a-c5e84cbbea16)
+
+   - The **N+ regions** penetrate deeper into the **P-Well**, ensuring a well-formed transistor structure.
+   ![image](https://github.com/user-attachments/assets/3705af4e-10b8-45ac-a5e6-978a35594019)
+
+   - A similar process occurs for the **N-Well** with **P+ regions**.  
+
+---
+
+### SKY_L6 - Local Interconnect Formation  
+
+### *7. Steps to Form Contacts and Interconnects (Local)*
+
+### Process Steps:  
+
+1. **Etching Oxide**  
+   - Thin oxide is etched in **HF (Hydrofluoric Acid) solution** to expose the silicon surface.  
+![image](https://github.com/user-attachments/assets/929206c6-0a85-4152-89d2-ceea0e6fc79b)
+
+2. **Titanium Deposition**  
+   - **Titanium (Ti)** is deposited on the wafer surface using **sputtering**.  
+   - **Sputtering**: A process where **Argon ions** hit the **Titanium target**, causing atoms to be ejected and deposited onto the wafer.  
+![image](https://github.com/user-attachments/assets/e551ff50-c7bc-4c41-9e48-5b2b542f4e2c)
+![image](https://github.com/user-attachments/assets/ae00f6c2-11d8-4787-b64d-7141f27fa4ae)
+
+
+3. **Titanium Silicide (TiSi₂) Formation**  
+   - **Titanium (Ti)** reacts with silicon when heated at **high temperatures**.
+   ![image](https://github.com/user-attachments/assets/817057be-ffd9-4c1b-9851-75cba0c790c4)
+
+   - This forms **Titanium Silicide (TiSi₂)**, which has **low resistance** and is used for **local interconnects**.  
+
+4. **Contact Masking and Etching**  
+   - A **mask 11** is used to define contact regions.
+   ![image](https://github.com/user-attachments/assets/e95a7af1-582b-4e2d-9c1e-6dc0033ae4d1)
+
+   - Excess **Titanium Nitride (TiN)** is etched off using **RCA cleaning**.
+    ![image](https://github.com/user-attachments/assets/cc592ebb-01df-46ca-8095-4d70ab26b892)
+
+
+5. **Photoresist Removal**  
+   - The **photoresist is removed**, leaving behind the **local interconnects** for short-range connections.
+   ![image](https://github.com/user-attachments/assets/e925c413-ba52-47e9-93a3-7d9cd0d50ee2)
+
+---
+
+
+# SKY_L7 - Higher Level Metal Formation  
+
+## 8. Higher Level Metal Formation  
+
+### Process Steps:  
+
+1. **Planarization of the Surface**  
+   - Since the surface is **non-planar**, we first **planarize** it.  
+   - Deposit a thick **SiO₂ layer** doped with **Boron (BPSG) or Phosphorus (PSG)**.
+   ![image](https://github.com/user-attachments/assets/9e4e663e-70e2-4bd8-a9d5-d9495f149fe6)
+ 
+   - Polish using **Chemical Mechanical Polishing (CMP)** to achieve a flat surface.
+    ![image](https://github.com/user-attachments/assets/6db5fa74-6bb4-499c-acc2-b38b5a75cd3b)
+
+
+2. **Contact Hole Formation**  
+   - Use **Mask 12** to define contact holes.
+   ![image](https://github.com/user-attachments/assets/703144fc-37a5-45bb-8f0b-f51ede5e73ae)
+
+   - Remove the mask and **etch SiO₂** to create the openings.  
+   - Drill the contact holes and remove the **photoresist**.  
+
+3. **Metal Deposition for Contacts**  
+   - Deposit a thin **10nm TiN (Titanium Nitride) layer** as a barrier.  
+   - Blanket deposit **Tungsten (W)** to fill the contact holes.
+   ![image](https://github.com/user-attachments/assets/6af5d253-9798-4249-95c9-875866a6f4ca)
+
+![image](https://github.com/user-attachments/assets/5e60b685-2d14-4f4d-bc4b-3b0bd12835bf)
+
+![image](https://github.com/user-attachments/assets/d0720abe-0865-4122-8c3d-ff4334a67425)
+
+
+
+   - Use **CMP** again for planarization, leaving **Tungsten in the contact holes**.
+![image](https://github.com/user-attachments/assets/bcb8e7f6-5484-45e4-831e-1342b9c988be)
+
+
+4. **First Metal Layer Formation**  
+   - Deposit **Aluminum (Al)**.
+   ![image](https://github.com/user-attachments/assets/bd142a88-5d09-4354-88dc-90258116fa15)
+
+   - Use **Mask 13** to define interconnect patterns.
+   ![image](https://github.com/user-attachments/assets/1d1d862a-bf91-4b82-aae8-bed4a44c6448)
+
+   - Remove excess **Aluminum** using **Plasma Etching**.  
+   - Remove the **photoresist** after etching.  
+
+5. **Second Metal Layer & Via Formation**  
+   - Deposit another **SiO₂ layer** for insulation.
+   ![image](https://github.com/user-attachments/assets/ef5adc6a-45a9-464d-9f92-438e43b16400)
+
+   - Planarize using **CMP**.  
+   - Use **Mask 14** to drill via holes.  
+   - Deposit **TiN** followed by **Tungsten (W)** for via formation.  
+![image](https://github.com/user-attachments/assets/a33d0133-fad1-49f5-ada5-4c8e0afb39b7)
+
+
+6. **Third Level of Interconnects**  
+   - Use **Mask 15** to define **third-level metal** interconnects.  
+   - Deposit another **Aluminum (Al)** layer for upper metal connections.
+  ![image](https://github.com/user-attachments/assets/4ace4681-669c-479e-8515-abbd484b5619) 
+
+7. **Final Protection Layer**  
+   - Deposit a **Si₃N₄ (Silicon Nitride) passivation layer** to protect the chip.  
+   - Use **Mask 16** for final connection openings.  
+![image](https://github.com/user-attachments/assets/77551886-04fd-4e6d-8ecc-e1d348b308c5)
+
+---
+
+### SKY_L8 - Inverter Connections on Layout  
+
+### Viewing Connections in **Magic Layout Editor**  
+
+- To check the **connected layers and metals** in the layout:  
+  - **Press `S` three times** while keeping the cursor on a port or layout.  
+  - This will highlight the **entire connectivity** of the selected node.
+  ![image](https://github.com/user-attachments/assets/7e1add8f-c533-4cce-a93f-1b585110e4f4)
+
+  - If **`S` is pressed multiple times**, it will extend the selection further to **show all connected layers**.  
+  -The layout differs from the actual layout we see in magic.
+![Image](https://github.com/user-attachments/assets/a4da8402-7820-49e2-bee9-71b534bb9bbe) 
+
+---
+
+### SKY_L9 - Extracting SPICE Netlist from Layout  
+
+3## Steps to Generate `.ext` and SPICE Netlist  
+
+1. **Extract the layout** in **Magic**:  
+   - Open the **Tkcon** window.  
+   - Run the command:  
+     ```tcl
+     extract all
+     ```
+![image](https://github.com/user-attachments/assets/1d010925-8490-4ce7-82da-74344bedbf9e)
+
+   - This generates the **extracted file** (`sky130_inv.ext`).  
+
+1. **Convert `.ext` to SPICE netlist**:  
+   - Run the following commands in the **Tkcon** window:  
+     ```tcl
+     ext2spice cthresh 0 rthresh 0
+     ext2spice
+     ```
+   - This creates the **SPICE netlist file** (`sky130_inv.spice`).
+   ![image](https://github.com/user-attachments/assets/32dbb9d3-b870-40ee-a806-c42138346fa8)
+
+---
+
+### SKY130_D3_SK3 - Sky130 Tech file Labs
+
+### SKY_L1 - SPICE File Setup  
+
+### 1. Opening and Editing the SPICE File  
+- **Transistor terminal order**:  
+  - **NMOS & PMOS format**: `Drain Source Substrate Gate`  
+- **Steps**:  
+  1. Open the **SPICE file** in a text editor.  
+  2. Check the **dimensions** of the transistor boxes in the layout.  
+  3. Update the **SPICE file** accordingly.  
+
+### 2. Include NMOS & PMOS Model Files  
+![image](https://github.com/user-attachments/assets/4ebe834d-115e-4caa-9de5-2698b22e6255)
+
+Add the following `.include` statements to ensure correct device models are used:  
+```spice
+.include nmos_model.lib
+.include pmos_model.lib
+```
+![image](https://github.com/user-attachments/assets/821190b4-fea2-4b73-8f8a-302a133f8ea7)
+
+
+### 3. Before & After SPICE File (Refer to Images)  
+- The **before** and **edited** SPICE files are attached in the repository.  
+![image](https://github.com/user-attachments/assets/de46b4ab-e4ab-4975-a60a-f279dd5777be)
+ 
+![image](https://github.com/user-attachments/assets/c4676d06-8ccd-4f92-b08b-02e3937cdbc5)
+
+![image](https://github.com/user-attachments/assets/68bfdd48-9de1-46e3-a959-9be3598b3e6d)
+
+---
+
+
+### SKY_L2 - Characterizing an Inverter Using SKY130 Model Files  
+
+### 1. Running SPICE Simulation  
+- Open the **SPICE file** in NGSPICE using:  
+  ```sh
+  ngspice sky130_inv.spice
+  ```
+- If **spikes** appear in the output, modify the **capacitor load** in the SPICE file and rerun the simulation.
+![image](https://github.com/user-attachments/assets/6a4af03e-3117-49e7-a594-c6deaced231a)
+
+### 2. Plotting & Delay Calculation  
+- Plot **V(out) vs. time** to observe the waveform.
+![image](https://github.com/user-attachments/assets/1cead679-746a-47bc-8343-5c1a3edae575)
+
+- **Rise transition calculation**:  
+  - Check **voltage at 20%** (Vdd × 0.2).  
+  - Check **voltage at 80%** (Vdd × 0.8).
+  ![image](https://github.com/user-attachments/assets/f0624075-e0e4-44b4-8056-4aca1051b705)
+
+  - Subtract the two time values to get **rise delay**.
+  2.239−2.146=0.093ns
+- **Cell rise delay**:  
+  - Identify **50% voltage point (1.65V for 3.3V Vdd)** for both input and output.  
+  - Measure delay at **room temperature**.
+    2.20−2.14=0.06ns
+![image](https://github.com/user-attachments/assets/94e7b48e-d413-4279-ae9b-fa6c84d6c674)
+
+### 3. Magic Tool Commands  
+- Use **`Shift + Z`** to zoom out in Magic.  
+
+---
+
+
+
