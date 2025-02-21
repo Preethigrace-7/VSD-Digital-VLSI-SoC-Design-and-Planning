@@ -2039,32 +2039,28 @@ Use the following **commands** to download and extract the lab files:
 ```sh
 # Step 1: Download the DRC test labs
 wget http://opencircuitdesign.com/open_pdks/archiev/drc_tests.tgz
-```
 # Step 2: Extract the downloaded file
-```
 tar xfz drc_tests.tgz
-```
 # Step 3: Navigate into the extracted directory
-```
 cd drc
 cd drc_tests
-```
+
 # Step 4: List all files to verify extraction
-```
 ls -al
-```
+
 # Step 5: Print the current working directory
-```
+
 pwd
-```
+
 # Step 6: Open .magicrc file for configuration
-```
 vi .magicrc
 ```
 ![image](https://github.com/user-attachments/assets/8d258b44-9069-429c-a4bd-98b8d345603a)
-
+```
 # Step 7: Launch Magic in XR mode
-```magic -d XR```
+
+magic -d XR
+```
 ![image](https://github.com/user-attachments/assets/1464ed6b-f297-4796-aaa3-dcc6f066e698)
 
 ---
