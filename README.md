@@ -15,7 +15,7 @@ This repository documents my learnings from the **Digital VLSI SoC Design and Pl
 - [Day 1 - Inception of Open-Source EDA, OpenLANE, and Sky130 PDK](#day-1---inception-of-open-source-eda-openlane-and-sky130-pdk)
 - [Day 2 - Good Floorplan vs Bad Floorplan and Introduction to Library Cells](#day-2---good-floorplan-vs-bad-floorplan-and-introduction-to-library-cells)
 - [Day 3 - Design Library Cell using Magic Layout and NGSpice Characterization](#day-3---design-library-cell-using-magic-layout-and-ngspice-characterization)
-- [Day 4 - Pre-Layout Timing Analysis & Clock Tree Importance](#day-4---pre-layout-timing-analysis-&-clock-tree-importance)
+- [Day 4 - Pre-Layout Timing Analysis and Clock Tree Importance](#day-4---pre-layout-timing-analysis-and-clock-tree-importance)
 - [Day 5 - Clock Tree Synthesis (CTS) and Routing](#day-5---clock-tree-synthesis-cts-and-routing)
 - [Acknowledgments](#acknowledgments)
 - [References](#references)
@@ -2228,7 +2228,7 @@ vi sky130A.tech
 
 
 ---
-## Day 4 - Pre-Layout Timing Analysis & Clock Tree Importance  
+## Day 4 - Pre-Layout Timing Analysis and Clock Tree Importance  
 
 ### SKY_L1 - Lab Steps to Convert Grid Info to Track Info  
 
