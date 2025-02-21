@@ -2267,6 +2267,8 @@ after the cmd
 
   - **Aligns ports to track intersections**.
   - Ensures **routing follows defined tracks**.
+  ![image](https://github.com/user-attachments/assets/46eca2d2-e359-4b59-bdd3-4c9ef5ee0bbf)
+
   - Helps in **timing closure & better layout optimization**.
 
 ---
