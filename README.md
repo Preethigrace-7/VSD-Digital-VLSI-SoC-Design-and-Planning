@@ -2044,24 +2044,230 @@ tar xfz drc_tests.tgz
 # Step 3: Navigate into the extracted directory
 cd drc
 cd drc_tests
-
 # Step 4: List all files to verify extraction
 ls -al
-
 # Step 5: Print the current working directory
-
 pwd
-
 # Step 6: Open .magicrc file for configuration
 vi .magicrc
 ```
 ![image](https://github.com/user-attachments/assets/8d258b44-9069-429c-a4bd-98b8d345603a)
 ```
 # Step 7: Launch Magic in XR mode
-
 magic -d XR
 ```
 ![image](https://github.com/user-attachments/assets/1464ed6b-f297-4796-aaa3-dcc6f066e698)
+
+---
+
+### SKY_L5 - Lab: Introduction to Magic & Steps to Load Sky130 Tech Rules
+
+### 1. Overview  
+This lab introduces the **Magic VLSI Tool** and covers the steps to **load Sky130 technology rules**, create metal contacts, and measure distances.
+
+### 2. Steps to Load Sky130 Tech Rules & Work with Magic  
+
+### 2.1 Open the `.mag` File  
+Run the following command to open the `met3.mag` file in **Magic**:  
+```sh
+magic met3.mag
+```
+![image](https://github.com/user-attachments/assets/b0f4626a-e6f2-4a0a-8b59-3c5059e48846)
+
+### 2.2 Create a Metal Contact and Add Contact Cuts  
+Inside the Magic terminal, execute:  
+```sh
+%cif see VIA2  # View the VIA2 layer  
+%what          # Display information about the selected object  
+```
+![image](https://github.com/user-attachments/assets/b2354b8b-2d01-42f6-ad49-65de70cdff87)
+
+### 2.3 Measure Distance in Magic  
+To measure distances using the mouse:  
+1. Select the area using the **mouse pointer**.  
+2. Use the command:  
+   ```sh
+   %box
+   ```
+   ![image](https://github.com/user-attachments/assets/4235607f-951d-4c5a-b048-5bf8e1609675)
+
+3. Snap the box to the nearest grid intersection using:  
+   ```sh
+   snap int
+   ```
+4. Clear the box after measuring:  
+   ```sh
+   feed clear
+   ```
+![image](https://github.com/user-attachments/assets/f4c0e4ad-bfb7-4fe0-80c3-bfc8ed0d85e3)
+
+---
+
+### SKY_L6 - Lab: Fixing `poly.9` Error in Sky130 Tech-File  
+
+### 1. Overview  
+This lab guides you through **identifying and fixing a `poly.9` error** in the Sky130 technology file using **Magic VLSI**.
+
+### 2. Steps to Fix `poly.9` Error  
+
+### 2.1 Load the `poly.mag` File  
+Open the file in **Magic** using:  
+```sh
+load poly
+```
+![image](https://github.com/user-attachments/assets/65c020f8-abeb-4632-b0e3-fd569286624a)
+
+### 2.2 Identify the `poly.9` Error  
+- Look for **design rule violation (DRC) errors** in `poly.9`.
+  ![image](https://github.com/user-attachments/assets/41a3f684-b65b-4884-ab1d-e232ee012568)
+
+- Run:  
+  ```sh
+  drc check
+  drc why
+  ```
+  This will display the specific **design rule violation** and its **cause**.
+
+### 2.3 Edit the Sky130 Tech File  
+- Open the **Sky130 technology file** in a text editor (e.g., `vi`):  
+  ```sh
+  vi sky130.tech
+  ```
+  ![image](https://github.com/user-attachments/assets/d2d2fec1-76b9-4b55-90dd-ac00abaf4866)
+  ![image](https://github.com/user-attachments/assets/473b4836-54e4-4bfa-9bad-5ad413194837)
+
+
+- Locate the **poly.9** rule and modify it based on the correct design specifications (refer to images for the correct parameters).  
+- Save the file and exit.
+
+### 2.4 Reload the Sky130 Tech File in Magic  
+After making changes, reload the tech file:  
+```sh
+tech load sky130A.tech
+```
+![image](https://github.com/user-attachments/assets/e92f22f1-2413-4e89-986c-8d223d6871e2)
+
+### 2.5 Verify the Fix  
+- Run `drc check` again in Magic.  
+- If no errors appear, the issue is resolved.  
+![image](https://github.com/user-attachments/assets/bf4f6be4-ef95-47d6-9aa9-5c75c9b5e45f)
+
+---
+
+### SKY_L7 - Lab: Implementing Poly Resistor Spacing to Diffusion and Tap  
+
+### 1. Overview  
+This lab focuses on **setting the correct spacing** between a **poly resistor** and **diffusion (n-type and p-type)** using **Magic VLSI** and Sky130 design rules.
+
+### 2. Understanding Diffusion Types  
+- **N-type diffusion** → **Green color** in Magic  
+- **P-type diffusion** → **Tan color** in Magic
+
+---
+
+### SKY_L8 - Lab Challenge: Describing DRC Errors as Geometrical Constructs  
+
+### 1. Overview  
+This lab focuses on **understanding, analyzing, and fixing DRC errors** in Magic by modifying the **Sky130A.tech file** and verifying geometrical constraints.
+
+### 2. Editing DNWELL Section in Sky130A.tech  
+
+### 2.1 Open the Technology File  
+```sh
+vi sky130A.tech
+```
+![image](https://github.com/user-attachments/assets/e628bf5b-dc27-4362-89aa-69fad0680e5c)
+
+### 2.2 Locate the DNWELL Section  
+- Search for **DNWELL** in the **.tech file**.  
+- Check for constraints such as **cifmaxwidth** and **geometrical rules**.
+![image](https://github.com/user-attachments/assets/ba5f7c4a-9935-4ea4-8352-50f51c470299)
+
+### 2.3 Modify DRC Constraints  
+- Adjust the **cifmaxwidth** value as per the **image reference**.  
+- Ensure it aligns with **Sky130 design rules**.
+
+### 3. Finding and Analyzing DRC Styles  
+
+### 3.1 Identifying the DRC Rule  
+- Use the following command to check the **style**:
+  ```sh
+  grep "drc" sky130A.tech
+  ```
+
+### 3.2 Checking for Missing Layers  
+- Locate **temporary layers** and verify **nwell_missing dnwell** rule:
+  ```sh
+  grep "templayer nwell_missing dnwell" sky130A.tech
+  ```
+![image](https://github.com/user-attachments/assets/8f85a9ad-fe9d-46b8-8180-d8674caeda88)
+![image](https://github.com/user-attachments/assets/d221a08d-c593-4b72-8bcc-b4989848da03)
+
+![image](https://github.com/user-attachments/assets/1e73d0f4-7a40-4b0a-b65b-c9cbe9832a9d)
+![image](https://github.com/user-attachments/assets/ee8760ef-45e0-4f16-94a7-877b7cf7a836)
+
+### 3.3 Running DRC in Magic  
+- Load the layout and run:
+  ```sh
+  drc check
+  drc why
+  ```
+  ![image](https://github.com/user-attachments/assets/191163f1-2de4-4a80-b45b-7d8be2585faf)
+
+- Identify the **geometrical issue** causing the DRC violation.
+
+
+---
+## SKY130 Day 4 - Pre-Layout Timing Analysis & Clock Tree Importance  
+
+### SKY_L1 - Lab Steps to Convert Grid Info to Track Info  
+
+### 1. Navigating to the Required Directory  
+```sh
+cd vsdstdcelldesign
+```
+- This directory contains the **standard cell design files**.
+
+### 2. Opening the Layout in Magic  
+```sh
+magic -T sky130A.tech sky130_inv.mag
+```
+- Loads the **inverter layout** in Magic using **Sky130A.tech**.
+
+### 3. Viewing Track Information  
+Navigate to the **Sky130 PDK directory** where track definitions exist:  
+```sh
+cd pdks/sky130/libs.tech/openlane/sky130_fd_sc_hd/
+less tracks.info
+```
+![image](https://github.com/user-attachments/assets/9a818042-5944-4c50-bf5e-0a24e0f8b525)
+
+- **Tracks.info** defines **metal layers, spacing, and pitch**.  
+- Example from `tracks.info`:
+  ```
+  li1 x 0.23 0.46
+  ```
+  - **0.23um spacing**
+  - **0.46um pitch**
+
+### 4. Activating Grid in Magic  
+- Press **'g'** in Magic to **activate grid view**.  
+
+### 5. Converting Grid to Track Information  
+Use the following **grid command** in Magic to match the track definition:  
+```sh
+grid 0.46um 0.34um 0.23um 0.17um
+```
+![image](https://github.com/user-attachments/assets/b051eb89-7fec-4b0d-b150-9e68a60da3c1)
+before the cmd 
+![image](https://github.com/user-attachments/assets/b326ccd3-61c9-4fbc-81cd-cc16cfbff4fa)
+
+after the cmd 
+![image](https://github.com/user-attachments/assets/d167ff67-718d-4df2-af90-6f88a76298b2)
+
+  - **Aligns ports to track intersections**.
+  - Ensures **routing follows defined tracks**.
+  - Helps in **timing closure & better layout optimization**.
 
 ---
 
