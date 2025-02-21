@@ -1364,7 +1364,7 @@ t_{slew} = \text{time}(80\%) - \text{time}(20\%)
 ---
 
 
-## SKY130 DAY 3 - Design Library Cell using Magic Layout and NGSpice Characterization  
+## DAY 3 - Design Library Cell using Magic Layout and NGSpice Characterization  
 
 ### *SKY130_D3_SK1 - CMOS Inverter NGSpice Simulations*
 - Perform NGSpice simulations for CMOS inverter characterization.  
@@ -2228,7 +2228,7 @@ vi sky130A.tech
 
 
 ---
-## SKY130 Day 4 - Pre-Layout Timing Analysis & Clock Tree Importance  
+## Day 4 - Pre-Layout Timing Analysis & Clock Tree Importance  
 
 ### SKY_L1 - Lab Steps to Convert Grid Info to Track Info  
 
@@ -3069,7 +3069,7 @@ write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/des
 - To balance performance and area, reinsert `clk_buf1`.
 ---
 
-## D5 - Routing
+## Day 5 - Clock Tree Synthesis (CTS) and Routing
 
 ### SKY130_D5_SK1 - Routing Algorithms
 
@@ -3100,7 +3100,7 @@ We need to connect the wires `din1` and `ff1`.
 
 ---
 
-### SKY5_L2 - Maze Algorithm
+### SKY_L2 - Maze Algorithm
 
 - We **cannot** use pre-placed cells for routing.
   ![image](https://github.com/user-attachments/assets/12af6b93-5b2e-4537-8c05-9f03cd0354e9)
