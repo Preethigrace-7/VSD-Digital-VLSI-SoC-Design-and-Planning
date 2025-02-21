@@ -3260,7 +3260,7 @@ after pdn the def files created
 To visualize and verify the Power Distribution Network (PDN) in Magic:
 ```tcl
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech \
-      lef read ../../tmp/merged.lef \
+      lef read ../../tmp/merged_unpadded.lef \
       def read 14-pdn.def &
 ```
 ![image](https://github.com/user-attachments/assets/a34ca4d8-9f46-497e-abe5-a195b05ba30d)
@@ -3358,7 +3358,7 @@ Routing topology defines how wires connect different components in a chip while 
 
 for me it took 0h31m41s
 ```
-  magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read final-routed.def &
+  magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged_unpadded.lef def read final-routed.def &
 ```
 
 ![image](https://github.com/user-attachments/assets/5651457c-b7b4-4f5a-8de6-3db5d493e31f)
