@@ -3369,6 +3369,10 @@ with no DRC errors
 
 ![image](https://github.com/user-attachments/assets/cda5bfbf-9939-4ef4-ae1b-65ec53098e80)
 ---
+## Certificate 
+
+![Image](https://github.com/user-attachments/assets/453a9b0d-7812-4d02-b042-64bde9c5265a)
+
 
 ## Acknowledgments
 - [Kunal Ghosh](https://www.linkedin.com/in/kunal-ghosh-vlsisystemdesign-com-28084836/), Co-founder, VSD Corp. Pvt. Ltd.  
